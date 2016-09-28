@@ -3,5 +3,10 @@ package is.ru.honn.service;
 /**
  * Created by steinn on 28/09/16.
  */
-public class VideoService {
+public interface VideoService
+{
+    Video getVideo(int videoId);
+    List<Video> getVideosbyUser(int userId);
+    int addVideo(Video video, int userId) throws ServiceException;
 }
+
