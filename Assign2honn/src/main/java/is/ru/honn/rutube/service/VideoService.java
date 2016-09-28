@@ -1,4 +1,4 @@
-package is.ru.honn.service;
+package is.ru.honn.rutube.service;
 
 /**
  * Created by steinn on 28/09/16.
