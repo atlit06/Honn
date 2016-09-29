@@ -1,5 +1,10 @@
 package is.ru.honn.rutube.service;
 
+import is.ru.honn.rutube.domain.Video;
+import is.ru.honn.rutube.exceptions.ServiceException;
+
+import java.util.List;
+
 /**
  * Created by steinn on 28/09/16.
  */
