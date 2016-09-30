@@ -46,12 +46,13 @@ public class UserReader extends AbstractReader {
       (String) jUser.get("lastName"),
       (String) jUser.get("email"),
       (String) jUser.get("displayName"),
-      (String) jUser.get("birthdate"));
+      (java.util.Date) jUser.get("birthdate"),
+      new ArrayList<String>());
 
       JSONArray jVideos = (JSONArray) jUser.get("videos");
       Object jvids = videoReader.parse(jVideos.toString());
       List<Video> videos = (List<Video>) jvids;
-      user.setVideos(videos);
+      //user.setVideos(videos);
 
       users.add(user);
     });
@@ -61,11 +62,17 @@ public class UserReader extends AbstractReader {
 
   public static void main(String args[]){
 
-    VideoReader videoReader = new VideoReader();
-    UserReader userReader = new UserReader(videoReader);
-    ClientRequest clientRequest = new ClientRequest();
-    String content = clientRequest.getRequest("http://mockaroo.com/f13b8200/download?count=1&key=e79a3650");
-    List<User> users = (List<User>)userReader.parse(content);
+    //VideoReader videoReader = new VideoReader();
+    //UserReader userReader = new UserReader(videoReader);
+    //ClientRequest clientRequest = new ClientRequest();
+    //String content = clientRequest.getRequest("http://mockaroo.com/f13b8200/download?count=1&key=e79a3650");
+    //List<User> users = (List<User>)userReader.parse(content);
+    ReaderFactory factory = new ReaderFactory();
+    try {
+      Reader reader = factory.getReader("videoReader");
+    } catch (ReaderException e) {
+      e.printStackTrace();
+    }
 
   }
 

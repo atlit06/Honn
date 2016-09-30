@@ -10,7 +10,7 @@ public abstract class AbstractReader implements Reader {
     private ReadHandler readHandler;
     public Object read() {
 
-
+        return new Object();
     };
     public void setURI(String URI) {
         this.URI = URI;
@@ -34,5 +34,5 @@ public abstract class AbstractReader implements Reader {
             return 0;
         return value.intValue();
     }
-    public abstract String parse (String content);
+    public abstract Object parse (String content);
 }
