@@ -1,7 +1,9 @@
 package is.ru.honn.rutube.service;
 
 import is.ru.honn.rutube.domain.Video;
+import is.ru.honn.rutube.domain.User;
 import is.ru.honn.rutube.exceptions.ServiceException;
+import is.ru.honn.rutube.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,23 +12,47 @@ import java.util.List;
  * Created by steinn on 28/09/16.
  */
 public class VideoServiceStub implements VideoService {
-    private List<Video> videos;
-    public VideoServiceStub() {
-        this.videos = new ArrayList<Video>();
+
+    private UserServiceStub userService;
+
+    public VideoServiceStub(UserServiceStub userService) {
+        this.userService = userService;
     }
+
     public Video getVideo(int videoId) {
-        List<String> tags = new ArrayList<String>();
-        tags.add("Tarzan");
-        tags.add("Jane");
-       return new Video(videoId, "Tarzan", "Man thinks he is monkey", "http://www.example.com", "video", tags);
-    };
+        for(User user : userService.users) {
+            for(Video vid : user.videos) {
+                if (vid.videoId == videoId){
+                    return vid;
+                }
+            }
+        }
+        return null;
+    }
+
     public List<Video> getVideosbyUser(int userId) {
-        List<Video> userVids = new ArrayList<Video>();
-        List<String> tags = new ArrayList<String>();
-        tags.add("Snakes");
-        tags.add("Plane");
-        userVids.add(new Video(1, "Snakes on a plane", "Snakes are on a plane", "http://vedur.is", "video", tags));
-        return userVids;
-    };
-    public int addVideo(Video video, int userId) throws ServiceException {return 0;};
+        for (User user : userService.users) {
+            if (user.userId == userId) {
+                return user.videos;
+            }
+        }
+
+        return null;
+    }
+
+    public int addVideo(Video video, int userId) throws ServiceException {
+
+        if (getVideo(video.videoId) != null){
+            throw new ServiceException("This videoId Exists Already!");
+        }
+
+        for (User user : userService.users) {
+            if (user.userId == userId) {
+                user.videos.add(video);
+                return video.videoId;
+            }
+        }
+
+        throw new ServiceException("User Not Found!");
+    }
 }
