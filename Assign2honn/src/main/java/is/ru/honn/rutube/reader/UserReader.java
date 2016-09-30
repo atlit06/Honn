@@ -2,6 +2,7 @@ package is.ru.honn.rutube.reader;
 
 import is.ru.honn.rutube.domain.User;
 import is.ru.honn.rutube.domain.Video;
+import is.ru.honn.rutube.exceptions.ServiceException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -40,16 +41,21 @@ public class UserReader extends AbstractReader {
     jUsers.stream().forEach(jUser1 -> {
       JSONObject jUser = (JSONObject) jUser1;
       int userId = getInt(jUser, "userId");
-      User user = new User(
-      userId,
-      (String) jUser.get("firstName"),
-      (String) jUser.get("lastName"),
-      (String) jUser.get("email"),
-      (String) jUser.get("displayName"),
-      (java.util.Date) jUser.get("birthdate"),
-      new ArrayList<String>());
+        User user = null;
+        try {
+            user = new User(
+            userId,
+            (String) jUser.get("firstName"),
+            (String) jUser.get("lastName"),
+            (String) jUser.get("email"),
+            (String) jUser.get("displayName"),
+            (String) jUser.get("birthdate")
+            );
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
 
-      JSONArray jVideos = (JSONArray) jUser.get("videos");
+        JSONArray jVideos = (JSONArray) jUser.get("videos");
       Object jvids = videoReader.parse(jVideos.toString());
       List<Video> videos = (List<Video>) jvids;
       //user.setVideos(videos);
