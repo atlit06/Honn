@@ -6,12 +6,14 @@ import java.util.List;
  * Created by steinn on 28/09/16.
  */
 public class Video {
-    private int videoId;
-    private String title;
-    private String description;
-    private String src;
-    private String type;
-    private List<String> tags;
+
+    public int videoId;
+    public String title;
+    public String description;
+    public String src;
+    public String type;
+    public List<String> tags;
+
     public Video(
             int videoId,
             String title,
@@ -27,7 +29,5 @@ public class Video {
         this.type = type;
         this.tags = tags;
     }
-    public int getVideoId() {
-        return this.videoId;
-    }
+
 }
