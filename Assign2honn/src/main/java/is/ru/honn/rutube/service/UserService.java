@@ -1,12 +1,7 @@
 package is.ru.honn.rutube.service;
 
 import is.ru.honn.rutube.domain.*;
-<<<<<<< HEAD
-import is.ru.honn.rutube.exceptions.ServiceException;
-
-=======
 import is.ru.honn.rutube.exceptions.*;
->>>>>>> 4e61b1af6a8ba3176a9917e444bb21fa23a98c31
 import java.util.List;
 
 /**
