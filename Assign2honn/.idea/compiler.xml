@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="Assign2honn" />
+        <module name="RuTube" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Assign2honn" target="1.5" />
+      <module name="Assign2honn" target="1.8" />
+      <module name="RuTube" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
