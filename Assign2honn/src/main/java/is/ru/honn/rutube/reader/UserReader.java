@@ -10,7 +10,7 @@ import org.json.simple.JSONValue;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserReader extends AbstractReader {
+public class UserReader extends AbstractReader implements ReadHandler {
 
   private VideoReader videoReader;
 
@@ -58,7 +58,7 @@ public class UserReader extends AbstractReader {
         JSONArray jVideos = (JSONArray) jUser.get("videos");
       Object jvids = videoReader.parse(jVideos.toString());
       List<Video> videos = (List<Video>) jvids;
-      //user.setVideos(videos);
+      user.setVideos(videos);
 
       users.add(user);
     });
@@ -66,19 +66,51 @@ public class UserReader extends AbstractReader {
     return users;
   }
 
-  public static void main(String args[]){
+  public void read(int count, Object user) {
+      User usr = (User)user;
+      System.out.println(usr.displayName);
+      return;
+  }
 
-    //VideoReader videoReader = new VideoReader();
-    //UserReader userReader = new UserReader(videoReader);
-    //ClientRequest clientRequest = new ClientRequest();
-    //String content = clientRequest.getRequest("http://mockaroo.com/f13b8200/download?count=1&key=e79a3650");
-    //List<User> users = (List<User>)userReader.parse(content);
-    ReaderFactory factory = new ReaderFactory();
-    try {
-      Reader reader = factory.getReader("videoReader");
-    } catch (ReaderException e) {
-      e.printStackTrace();
-    }
+  public void testRead() {
+      ReaderFactory factory = new ReaderFactory();
+      Reader reader;
+      try {
+          reader = factory.getReader("userReader");
+      } catch (ReaderException r) {
+          System.out.println(r.getMessage());
+          return;
+      }
+      reader.setReadHandler(this);
+      reader.setURI("http://mockaroo.com/f13b8200/download?count=1&key=e79a3650");
+      try {
+          Object nextUser = reader.read();
+      } catch (ReaderException e) {
+          e.printStackTrace();
+          return;
+      }
+  }
+
+  public static void main(String args[]) throws Exception{
+
+      /*
+    VideoReader videoReader = new VideoReader();
+    UserReader userReader = new UserReader(videoReader);
+    ClientRequest clientRequest = new ClientRequest();
+    String content = clientRequest.getRequest("http://mockaroo.com/f13b8200/download?count=1&key=e79a3650");
+    List<User> users = (List<User>)userReader.parse(content);
+    */
+      ReaderFactory factory = new ReaderFactory();
+
+      UserReader reader;
+      try {
+          reader = (UserReader)factory.getReader("userReader");
+          reader.testRead();
+      } catch (ReaderException r) {
+          System.out.println(r.getMessage());
+          return;
+      }
+
 
   }
 
