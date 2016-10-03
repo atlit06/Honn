@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class UserReader extends AbstractReader implements ReadHandler {
@@ -37,7 +38,7 @@ public class UserReader extends AbstractReader implements ReadHandler {
 
     JSONArray jUsers = (JSONArray) jTmp.get("users");
     List<User> users = new ArrayList<>();
-
+      final int[] position = {0};
     jUsers.stream().forEach(jUser1 -> {
       JSONObject jUser = (JSONObject) jUser1;
       int userId = getInt(jUser, "userId");
@@ -55,11 +56,12 @@ public class UserReader extends AbstractReader implements ReadHandler {
             e.printStackTrace();
         }
 
-        JSONArray jVideos = (JSONArray) jUser.get("videos");
+      JSONArray jVideos = (JSONArray) jUser.get("videos");
       Object jvids = videoReader.parse(jVideos.toString());
       List<Video> videos = (List<Video>) jvids;
       user.setVideos(videos);
-
+      readHandler.read(position[0], user);
+      position[0]++;
       users.add(user);
     });
 
@@ -69,6 +71,7 @@ public class UserReader extends AbstractReader implements ReadHandler {
   public void read(int count, Object user) {
       User usr = (User)user;
       System.out.println(usr.displayName);
+      System.out.println(count);
       return;
   }
 
