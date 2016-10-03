@@ -11,7 +11,7 @@ import java.io.File;
 public class ReaderFactory {
     private ApplicationContext context;
     public ReaderFactory() {
-        File f = new File("/reader.xml");
+        context = ApplicationContext("Reader.xml");
         System.out.println("Exist test: " + f.exists());
        this.context = new
                 ClassPathXmlApplicationContext("/reader.xml");
