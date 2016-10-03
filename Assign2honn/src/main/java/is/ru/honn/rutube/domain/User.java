@@ -39,5 +39,7 @@ public class User {
     }
 
 
-
+    public void setVideos(List<Video> videos) {
+        this.videos = videos;
+    }
 }

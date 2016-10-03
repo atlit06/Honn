@@ -10,17 +10,15 @@ import java.io.File;
  */
 public class ReaderFactory {
     private ApplicationContext context;
-    public ReaderFactory() {
-        context = ApplicationContext("Reader.xml");
-        System.out.println("Exist test: " + f.exists());
-       this.context = new
-                ClassPathXmlApplicationContext("/reader.xml");
-    }
-    public Reader getReader(String type) throws ReaderException {
+    public static Reader getReader(String type) throws ReaderException {
+        ApplicationContext context = new
+                ClassPathXmlApplicationContext("reader.xml");
         if (type.equals("videoReader")) {
-            return (VideoReader) context.getBean(type);
+            Reader videoReader = (VideoReader) context.getBean(type);
+            return videoReader;
         } else if (type.equals("userReader")) {
-            return (UserReader) context.getBean(type);
+            Reader userReader = (UserReader) context.getBean(type);
+            return userReader;
         } else {
             throw new ReaderException("Context not defined");
         }
