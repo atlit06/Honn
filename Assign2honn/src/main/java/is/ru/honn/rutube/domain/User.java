@@ -38,6 +38,18 @@ public class User {
         this.videos = new ArrayList<Video>();
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", birthDate=" + birthDate +
+                ", videos=" + videos +
+                '}';
+    }
 
     public void setVideos(List<Video> videos) {
         this.videos = videos;

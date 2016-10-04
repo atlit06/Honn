@@ -6,6 +6,7 @@
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/reader.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/reader.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/app.xml</file>
         </fileset>
       </configuration>
     </facet>

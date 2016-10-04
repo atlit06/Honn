@@ -4,17 +4,24 @@ import is.ru.honn.rutube.domain.*;
 import is.ru.honn.rutube.exceptions.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Observer;
 
 /**
  * Created by Janus on 9/28/16.
  */
-public class UserServiceStub implements UserService {
+public class UserServiceStub extends Subject implements UserService {
 
     public List<User> users;
 
     public UserServiceStub() {
         users = new ArrayList<User>();
+    }
+
+    public UserServiceStub(ArrayList<Observer> obs)
+    {
+
     }
 
     public int addUser(User user) throws ServiceException {
@@ -24,6 +31,8 @@ public class UserServiceStub implements UserService {
             }
         }
         users.add(user);
+        entry = user;
+        notifyObservers();
         return user.userId;
     }
 
