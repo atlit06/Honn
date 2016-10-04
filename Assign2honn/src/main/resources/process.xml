@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="processContext" class="is.ruframework.process.RuProcessContext">
+        <property name="processName">
+            <value>UserImportProcess</value>
+        </property>
+        <property name="importURL">
+            <value>http://mockaroo.com/f13b8200/download?count=1&amp;key=e79a3650</value>
+        </property>
+        <property name="processClass">
+            <value>is.ru.honn.rutube.process.UserImportProcess</value>
+        </property>
+    </bean>
+</beans>

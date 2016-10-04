@@ -3,11 +3,13 @@ package is.ru.honn.rutube.reader;
 import is.ru.honn.rutube.domain.User;
 import is.ru.honn.rutube.domain.Video;
 import is.ru.honn.rutube.exceptions.ServiceException;
+import is.ruframework.process.RuProcessRunner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -95,6 +97,9 @@ public class UserReader extends AbstractReader implements ReadHandler {
   }
 
   public static void main(String args[]) throws Exception{
+      String[] a = {"process.xml"};
+      RuProcessRunner.main(a);
+
 
       /*
     VideoReader videoReader = new VideoReader();
@@ -102,7 +107,6 @@ public class UserReader extends AbstractReader implements ReadHandler {
     ClientRequest clientRequest = new ClientRequest();
     String content = clientRequest.getRequest("http://mockaroo.com/f13b8200/download?count=1&key=e79a3650");
     List<User> users = (List<User>)userReader.parse(content);
-    */
       ReaderFactory factory = new ReaderFactory();
 
       UserReader reader;
@@ -113,7 +117,7 @@ public class UserReader extends AbstractReader implements ReadHandler {
           System.out.println(r.getMessage());
           return;
       }
-
+    */
 
   }
 
