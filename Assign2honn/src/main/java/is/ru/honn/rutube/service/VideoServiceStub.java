@@ -13,12 +13,28 @@ import java.util.List;
  */
 public class VideoServiceStub implements VideoService {
 
+
+
     private UserServiceStub userService;
 
+    /**
+     * Constructor that takes in a existing userservice
+     * @param userService
+     */
     public VideoServiceStub(UserServiceStub userService) {
         this.userService = userService;
     }
 
+
+    public VideoServiceStub() {
+        this.userService = new UserServiceStub();
+    }
+
+    /**
+     * Gets a video by Id
+     * @param videoId
+     * @return Video Object or Null if none is found
+     */
     public Video getVideo(int videoId) {
         for(User user : userService.users) {
             for(Video vid : user.videos) {
@@ -30,6 +46,11 @@ public class VideoServiceStub implements VideoService {
         return null;
     }
 
+    /**
+     * Returns a list of videos belonging to a specific user or null if none are available
+     * @param userId
+     * @return Null or List of Videos
+     */
     public List<Video> getVideosbyUser(int userId) {
         for (User user : userService.users) {
             if (user.userId == userId) {
@@ -40,6 +61,13 @@ public class VideoServiceStub implements VideoService {
         return null;
     }
 
+    /**
+     * Adds a video to the service, throws ServiceException with a corresponding message if  not possible
+     * @param video
+     * @param userId
+     * @return int of videoAdded
+     * @throws ServiceException
+     */
     public int addVideo(Video video, int userId) throws ServiceException {
 
         if (getVideo(video.videoId) != null){

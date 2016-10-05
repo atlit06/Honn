@@ -25,7 +25,6 @@ public class UserImportProcess extends RuAbstractProcess implements ReadHandler 
     private MessageSource msg;
 
 
-    // NEEED TO FIX EXCEPTION CATCHING
     public void startProcess() {
 
         String startProcessMessageEn = msg.getMessage("process.start",
@@ -41,7 +40,7 @@ public class UserImportProcess extends RuAbstractProcess implements ReadHandler 
             reader.setReadHandler(this);
             reader.read();
         }catch (Exception e) {
-            System.out.print("Some shit went wrong");
+            System.out.print("Unable to run function Start Process in UserImport Process");
         }
 
 
@@ -96,7 +95,7 @@ public class UserImportProcess extends RuAbstractProcess implements ReadHandler 
         try {
             userService.addUser((User)object);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            System.out.print("Unable to add user inside read method in UserImportProcess\nError Returned: " + e.getMessage());
         }
     }
 }

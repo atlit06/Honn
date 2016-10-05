@@ -13,17 +13,24 @@ import java.util.Observer;
  */
 public class UserServiceStub extends Subject implements UserService {
 
+    /**
+     * List of users that the service stores
+     */
     public List<User> users;
 
+    /**
+     * Constructor To Initialize the User List
+     */
     public UserServiceStub() {
         users = new ArrayList<User>();
     }
 
-    public UserServiceStub(ArrayList<Observer> obs)
-    {
-
-    }
-
+    /**
+     * Adds a user
+     * @param user
+     * @return Userid of the User added
+     * @throws ServiceException
+     */
     public int addUser(User user) throws ServiceException {
         for (User u : users) {
             if (u.userId == user.userId) {
@@ -36,10 +43,20 @@ public class UserServiceStub extends Subject implements UserService {
         return user.userId;
     }
 
+
+    /**
+     * Gets a list of all users
+     * @return Either a empty list or list with users
+     */
     public List<User> getUsers(){
         return users;
     }
 
+    /**
+     * Get a specific user by userId
+     * @param userId
+     * @return Null if no user exists or a User object
+     */
     public User getUser(int userId) {
         for (User u : users) {
             if (u.userId == userId) {

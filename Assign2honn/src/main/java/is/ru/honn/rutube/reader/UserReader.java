@@ -98,17 +98,6 @@ public class UserReader extends AbstractReader implements ReadHandler {
 
   public static void main(String args[]) throws Exception{
 
-      UserServiceStub userService = new UserServiceStub();
-      UserObserver obs = new UserObserver();
-      userService.attach(obs);
-      User a = new User(0, "Janus", "Kristjansson", "jth@365.is", "Royal", "2003-07-17");
-      User b = new User(1, "Janus", "Kristjansson", "jth@365.is", "Cookie", "1998-01-13");
-      User c = new User(2, "Janus", "Kristjansson", "jth@365.is", "Smarties", "1994-04-24");
-
-      userService.addUser(a);
-      userService.addUser(b);
-      userService.addUser(c);
-
 
       /*
       String[] a = {"process.xml"};
