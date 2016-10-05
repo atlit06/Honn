@@ -12,8 +12,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.util.*;
-
-public class UserReader extends AbstractReader implements ReadHandler {
+                                                  // uncomment for testing readhandler
+public class UserReader extends AbstractReader { // implements ReadHandler {
 
   private VideoReader videoReader;
 
@@ -70,6 +70,9 @@ public class UserReader extends AbstractReader implements ReadHandler {
     return users;
   }
 
+  /*
+  // Function to test the reader initialization from readerFactory
+  // Custom readHandler
   public void read(int count, Object user) {
       User usr = (User)user;
       System.out.println(usr.displayName);
@@ -77,6 +80,7 @@ public class UserReader extends AbstractReader implements ReadHandler {
       return;
   }
 
+  // custom test function
   public void testRead() {
       ReaderFactory factory = new ReaderFactory();
       Reader reader;
@@ -95,24 +99,17 @@ public class UserReader extends AbstractReader implements ReadHandler {
           return;
       }
   }
+  */
 
   public static void main(String args[]) throws Exception{
 
-
+      // uncomment to run the reader process
       /*
       String[] a = {"process.xml"};
       RuProcessRunner.main(a);
       */
-
-
+    // uncomment to run the userReader
       /*
-    VideoReader videoReader = new VideoReader();
-    UserReader userReader = new UserReader(videoReader);
-    ClientRequest clientRequest = new ClientRequest();
-    String content = clientRequest.getRequest("http://mockaroo.com/f13b8200/download?count=1&key=e79a3650");
-    List<User> users = (List<User>)userReader.parse(content);
-      ReaderFactory factory = new ReaderFactory();
-
       UserReader reader;
       try {
           reader = (UserReader)factory.getReader("userReader");

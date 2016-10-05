@@ -35,11 +35,11 @@ public class UserImportProcess extends RuAbstractProcess implements ReadHandler 
         System.out.println(startProcessMessageIs);
 
 
+        reader.setURI(getProcessContext().getImportURL());
+        reader.setReadHandler(this);
         try {
-            reader.setURI(getProcessContext().getImportURL());
-            reader.setReadHandler(this);
             reader.read();
-        }catch (Exception e) {
+        }catch (ReaderException e) {
             System.out.print("Unable to run function Start Process in UserImport Process");
         }
 
