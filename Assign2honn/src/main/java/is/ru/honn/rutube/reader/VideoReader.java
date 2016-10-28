@@ -16,7 +16,7 @@ public class VideoReader extends AbstractReader {
   /**
    * Walks through a json array of videos and maps it to a object which is a list of videos.
    *
-   * @param content Should be a json Array of videos. see http://mockaroo.com/f13b8200/download?count=1&key=e79a3650
+   * @param content Should be a json Array of videos.
    * @return Object which is a list of videos.
    */
   public Object parse(String content){

@@ -1,0 +1,232 @@
+For all API calls where the user needs to be logged in the
+authorization header with the user token and the username header need
+to be present.
+Example:
+{
+  'Authorization': 'wegrwhrw0g9wegwe',
+  'username': 'johnDoe'
+}
+
+[Authorization=none]
+POST /signup
+Sign up as a new user.
+Example request:
+  Headers:
+  {
+    'type': 'POST',
+    'Content-type': 'x-www-form-url-encoded'
+    }
+  Body:
+  {
+    'fullName': 'John Doe',
+    'username': 'johnDoe',
+    'password': 'myPass',
+    'email': 'johndoe@example.com'
+  }
+
+[Authorization=none]
+POST /login
+Login as an existing user with username and password
+Example request:
+  Headers:
+  {
+    'type': 'POST',
+    'Content-type': 'x-www-form-url-encoded'
+    }
+  Body:
+  {
+    'username': 'johnDoe',
+    'password': 'myPass'
+  }
+Example Response:
+  {
+    'token': '{token}',
+    'username': 'johnDoe',
+    'fullName': 'John Doe'
+  }
+  Where token is the session token the user sends with requests for
+  authentication
+
+
+[Authorization=user]
+GET /profile
+Displays the profile of the logged in user.
+Example response:
+  {
+    'username': 'johnDoe',
+    'fullName': 'John Doe',
+    'email': 'johndoe@example.com',
+    'videos': [
+      {
+        'id': 'funnycats',
+        'title': 'Funny cats',
+        'url': 'example.com/streams/funnycats',
+        'creatorid': 'johnDoe'
+      }
+    ],
+    'channels': [
+      {
+        'id': 'cats',
+        'title': 'Cats',
+        'videos': [
+          {
+            'id': 'funnycats',
+            'title': 'Funny cats',
+            'url': 'example.com/streams/funnycats',
+            'creatorid': 'johnDoe'
+          },
+          {
+            'id': 'janedoedancing',
+            'title': 'Jane Doe dancing lessons part 1',
+            'url': 'example.com/streams/janedoedancing',
+            'creatorid': 'janeDoe'
+          }
+        ]
+      }
+    ]
+  }
+
+[Authorization=user]
+PUT /profile
+Modify the users settings of the logged in user.
+  Example request:
+  Headers:
+  {
+    'Content-type': 'x-www-form-url-encoded'
+  }
+  Body:
+  {
+    'fullName': 'John Doe'
+  }
+
+[Authorization=none]
+GET /channels/{channelid}/videos
+returns all the videos in channel with id = channelid
+  Example response:
+  {
+    'videos': [
+      {
+        'id': 'funnycats',
+        'title': 'Funny cats',
+        'url': 'example.com/streams/funnycats',
+        'creatorid': 'johnDoe'
+      },
+      {
+        'id': 'janedoedancing',
+        'title': 'Jane Doe dancing lessons part 1',
+        'url': 'example.com/streams/janedoedancing',
+        'creatorid': 'janeDoe'
+      }
+    ]
+  }
+  where url is the url to the streaming service
+
+[Authorization=user]
+POST /channels/{channelid}/videos
+Adds a new video to channel with id = channelid
+  Example request:
+    Body:
+    {
+      'title': 'Funny cats',
+      'url': 'example.com/videos?id=funnycats'
+    }
+  Example response:
+  {
+    'url': 'rutube.com/channels/cats/videos?id=funnycats'
+  }
+  where url is the link to the newly created video.
+
+[Authorization=user]
+DELETE /channels/{channelid}/videos?id={videoid}
+Deletes a video with id = videoid from the channel with id = channelid.
+To delete a video the user needs to be logged in and the one who uploaded
+the video in the first place.
+
+[Authorization=user]
+GET /notifications
+Checks for new videos in channels the user is subscribed to.
+  Example response:
+  {
+    'channels': [
+      {
+        'id': 'cats',
+        'title': 'Cats',
+        'videos': [
+          {
+            'id': 'funnycats',
+            'title': 'funny cats',
+            'url': 'example.com/streams/funnycats',
+            'creatorid': 'johndoe'
+          },
+          {
+            'id': 'janedoedancing',
+            'title': 'jane doe dancing lessons part 1',
+            'url': 'example.com/streams/janedoedancing',
+            'creatorid': 'janedoe'
+          }
+        ]
+      }
+    ]
+  }
+
+[Authorization=admin]
+POST /channels
+Adds a new channel to the website
+  Example request:
+    Body:
+      {
+        'title': 'Cats'
+      }
+  Example response:
+  {
+    'url': 'rutube.com/channels/cats'
+  }
+  where url is the link to the newly created channel.
+
+[Authorization=admin]
+DELETE /channels/{channelid}
+Deletes a channel with id = channelid
+
+[Authorization=admin]
+POST /channel/{channelid}/videos/bulk
+"Bulk ingests" many videos at once.
+  Example request:
+    Body:
+    {
+      'videos': [
+        {
+          'id': 'funnycats',
+          'title': 'funny cats',
+          'url': 'example.com/streams/funnycats',
+          'creatorid': 'johndoe'
+        },
+        {
+          'id': 'funnycats2',
+          'title': 'funny cats 2',
+          'url': 'example.com/streams/funnycats2',
+          'creatorid': 'johndoe'
+        }
+      ]
+    }
+
+[Authorization=admin]
+POST /users/bulk
+"Bulk ingests many users at once"
+  Example request:
+    Body:
+    {
+      'users': [
+        {
+          'fullName': 'John Doe',
+          'username': 'johnDoe',
+          'password': 'myPass',
+          'email': 'johndoe@example.com'
+        },
+        {
+          'fullName': 'Jane Doe',
+          'username': 'janeDoe',
+          'password': 'myPassword',
+          'email': 'janedoe@example.com'
+        }
+      ]
+    }

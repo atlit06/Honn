@@ -12,8 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.util.*;
-                                                  // uncomment for testing readhandler
-public class UserReader extends AbstractReader { // implements ReadHandler {
+public class UserReader extends AbstractReader  implements ReadHandler {
 
   private VideoReader videoReader;
 
@@ -26,7 +25,7 @@ public class UserReader extends AbstractReader { // implements ReadHandler {
    *
    * Walks through the json String and maps it to lists of users, which all contain 1 or more videos.
    *
-   * @param content Json string with list of users, see http://mockaroo.com/f13b8200/download?count=1&key=e79a3650
+   * @param content Json string with list of users
    * @return Object which is a list of users.
    */
   public Object parse(String content) {
@@ -70,8 +69,6 @@ public class UserReader extends AbstractReader { // implements ReadHandler {
     return users;
   }
 
-  /*
-  // Function to test the reader initialization from readerFactory
   // Custom readHandler
   public void read(int count, Object user) {
       User usr = (User)user;
@@ -79,6 +76,8 @@ public class UserReader extends AbstractReader { // implements ReadHandler {
       System.out.println(count);
       return;
   }
+  /*
+  // Function to test the reader initialization from readerFactory
 
   // custom test function
   public void testRead() {
