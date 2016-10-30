@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RuTube_Web_Api.SQLite;
 
 namespace RuTube_Web_Api.Controllers
 {
@@ -18,9 +19,19 @@ namespace RuTube_Web_Api.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+
+            using (var db = new DBConnector())
+            {
+                
+                var test = (from u in db.Users
+                            select u).FirstOrDefault();
+                if(test != null){
+                    return Ok(test);
+                }
+                return Ok("Nope");
+            }
         }
 
         // POST api/values
