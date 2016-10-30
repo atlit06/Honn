@@ -13,7 +13,6 @@ Sign up as a new user.
 Example request:
   Headers:
   {
-    'type': 'POST',
     'Content-type': 'x-www-form-url-encoded'
     }
   Body:
@@ -30,7 +29,6 @@ Login as an existing user with username and password
 Example request:
   Headers:
   {
-    'type': 'POST',
     'Content-type': 'x-www-form-url-encoded'
     }
   Body:
@@ -42,7 +40,8 @@ Example Response:
   {
     'token': '{token}',
     'username': 'johnDoe',
-    'fullName': 'John Doe'
+    'fullName': 'John Doe',
+    'role': 'admin'
   }
   Where token is the session token the user sends with requests for
   authentication
@@ -135,6 +134,14 @@ Adds a new video to channel with id = channelid
     'url': 'rutube.com/channels/cats/videos?id=funnycats'
   }
   where url is the link to the newly created video.
+
+[Authorization=user]
+POST /channels/{channelid}/subscribe
+Adds the logged in user to the list of subscribers to the channel with id = channelid
+
+[Authorization=user]
+DELETE /channels/{channelid}/subscribe
+Removes the logged in user from the list of subscribers to the channel with id = channelid
 
 [Authorization=user]
 DELETE /channels/{channelid}/videos?id={videoid}
