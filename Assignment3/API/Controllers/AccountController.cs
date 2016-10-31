@@ -24,7 +24,7 @@ namespace Assignment3.Controllers
             try
             {
                 _accountService.createUser(user);
-                return StatusCode(201);
+                return Ok();
             }
             catch (InvalidParametersException e) {
                 return new BadRequestObjectResult(e.Message);
