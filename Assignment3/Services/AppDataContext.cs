@@ -10,10 +10,13 @@ namespace Assignment3.Services
 {
     public class AppDataContext : DbContext
     {
-       public DbSet<User> Users { get; set; }
-       public DbSet<Role> Roles { get; set; }
-       public DbSet<Token> Tokens { get; set; }
-       public DbSet<UserRole> UserRoles { get; set; }
+       public DbSet<User> Users                 { get; set; }
+       public DbSet<Channel> Channels           { get; set; }
+       public DbSet<Token> Tokens               { get; set; }
+       public DbSet<Friend> Friends             { get; set; }
+       public DbSet<ChannelUser> ChannelUsers   { get; set; }
+       public DbSet<Video> Videos               { get; set; } 
+
 
         public AppDataContext(DbContextOptions<AppDataContext> options)
             : base(options)
