@@ -4,13 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-using Assignment3.Services.Entities;
+// using Assignment3.Services.Entities;
 
 namespace Assignment3.Services
 {
     public class AppDataContext : DbContext
     {
-        public DbSet<Value> Values { get; set; }
        
 
         public AppDataContext(DbContextOptions<AppDataContext> options)
