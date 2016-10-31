@@ -21,5 +21,13 @@ namespace Assignment3.Services.DataAccess
             _db.SaveChanges();
             return;
         }
+
+        public void updateUserPassword(string username, string password) {
+            User usr = (from u in _db.Users
+                        where username == u.username
+                        select u).SingleOrDefault();
+            usr.password = password;
+            _db.SaveChanges();
+        }
     }
 }

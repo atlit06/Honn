@@ -27,14 +27,58 @@ namespace Assignment3.Controllers
                 return new StatusCodeResult(201);
             }
             catch (InvalidParametersException e) {
-                return new BadRequestObjectResult(e.Message);
+                return BadRequest(e.Message);
             }
             catch (DuplicateException e) {
                 return new BadRequestObjectResult(e.Message);
             }
-            catch (Exception)
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public IActionResult login([FromBody] UserDTO user)
+        {
+            try
             {
-                return new BadRequestObjectResult("Could not process the request");
+                AuthorizedUserDTO authenticatedUser = _accountService.authenticateUser(user);
+                return Ok(new {
+                    accessToken = authenticatedUser.accessToken,
+                    username = authenticatedUser.username,
+                    fullName = authenticatedUser.fullName
+                });
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (AppObjectNotFoundException e) {
+                return NotFound(e.Message);
+            }
+            catch (AppValidationException) {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost]
+        [Route("updatePassword")]
+        public IActionResult updatePassword([FromBody] UpdatePasswordDTO user) {
+            string accessToken = Request.Headers["Authorization"];
+            Console.WriteLine(accessToken);
+            Console.WriteLine(user.username);
+            Console.WriteLine(user.newPassword);
+            user.accessToken = accessToken;
+            try
+            {
+                _accountService.updatePassword(user);
+                return Ok();
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (AppObjectNotFoundException e) {
+                return NotFound(e.Message);
+            }
+            catch (AppValidationException) {
+                return Unauthorized();
             }
         }
     }

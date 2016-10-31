@@ -3,15 +3,19 @@ using Assignment3.Models;
 using Assignment3.Services.Entities;
 using Assignment3.Services.Exceptions;
 using System;
+using System.Text;
+using System.IO;
 
 namespace Assignment3.Services
 {
     public class AccountService : IAccountService {
 
-        private  IAccountDataMapper _mapper;
+        private IAccountDataMapper _accountMapper;
+        private ITokenService _tokenService;
 
-        public AccountService(IAccountDataMapper mapper) {
-            _mapper = mapper;
+        public AccountService(IAccountDataMapper accountMapper, ITokenService tokenService) {
+            _accountMapper = accountMapper;
+            _tokenService = tokenService;
         }
 
         public void createUser(UserDTO userDTO)
@@ -27,9 +31,8 @@ namespace Assignment3.Services
                         "To register a new user the following parameters need to be defined: \n" +
                          "username, email, fullName, password"
                         );
-                    return;
                 }
-            if (_mapper.findUserByUsername(userDTO.username) != null) {
+            if (_accountMapper.findUserByUsername(userDTO.username) != null) {
                throw new DuplicateException("Username is taken"); 
             }
             User newUser = new User {
@@ -38,38 +41,61 @@ namespace Assignment3.Services
                 fullName = userDTO.fullName,
                 password = userDTO.password
             };
-            try
-            {
-                _mapper.createUser(newUser);
-            } catch (Exception e) {
-                throw new Exception("something wen wrong when creating the user");
-            }
+            /*try
+            {*/
+                _accountMapper.createUser(newUser);
+            /*} catch (Exception e) {
+                throw new Exception("something went wrong when creating the user");
+            }*/
             return;
         }
 
         public AuthorizedUserDTO authenticateUser(UserDTO user)
         {
+            if (user.username == null || user.username == "" ||
+                user.password == null || user.password == "") {
+                    throw new InvalidParametersException(
+                        "To login a user the following parameters need to be defined: \n" +
+                         "username, password"
+                        );
+                }
+            User authenticateUser = _accountMapper.findUserByUsername(user.username);
+            if (user == null) {
+                throw new AppObjectNotFoundException("No user is registered with that username");
+            }
+            if (user.password != authenticateUser.password) {
+                throw new AppValidationException("Username and password don't match");
+            }
+            string tokenCode = _tokenService.createUserToken(user.username);
             return new AuthorizedUserDTO {
-                accessToken = "Gegeg",
-                fullName = "John Doe",
-                username = "johnDoe",
-                role = "admin"
+                accessToken = tokenCode,
+                fullName = authenticateUser.fullName,
+                username = authenticateUser.username
             };
         }
 
         public void updatePassword(UpdatePasswordDTO updatePass)
         {
+            if (updatePass.username == null || updatePass.username == "") {
+                throw new InvalidParametersException("username needs to be defined");
+            }
+            User currentUser = _accountMapper.findUserByUsername(updatePass.username);
+            if (currentUser == null) {
+                throw new AppObjectNotFoundException("No user found with this username");
+            }
+            if (!_tokenService.validateUserToken(updatePass.accessToken, updatePass.username)) {
+                throw new AppValidationException("Your session has expired please log back in");
+            }
+            if (updatePass.newPassword == null || updatePass.newPassword == "") {
+                throw new InvalidParametersException("newPassword parameter can not be empty");
+            }
+            _accountMapper.updateUserPassword(updatePass.username, updatePass.newPassword);
             return;
         }
 
         public void deleteUser(AuthorizedUserDTO user)
         {
             return;
-        }
-
-        public bool verifyUser(AuthorizedUserDTO user)
-        {
-            return true;
         }
     }
 }
