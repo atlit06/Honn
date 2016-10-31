@@ -60,7 +60,7 @@ namespace Assignment3.Services
                         );
                 }
             User authenticateUser = _accountMapper.findUserByUsername(user.username);
-            if (user == null) {
+            if (authenticateUser == null) {
                 throw new AppObjectNotFoundException("No user is registered with that username");
             }
             if (user.password != authenticateUser.password) {

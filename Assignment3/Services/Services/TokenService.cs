@@ -22,7 +22,7 @@ namespace Assignment3.Services
                 return false;
             }
             DateTime expiry = Convert.ToDateTime(userToken.expires);
-            if (DateTime.Now > expiry) {
+            if (DateTime.Compare(DateTime.Now, expiry) > 0) {
                 return false;
             }
             if (userToken.token != token) {
