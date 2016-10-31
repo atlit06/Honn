@@ -9,5 +9,9 @@ namespace Assignment3.Services
 
     //    private IUserDataMapper _mapper;
         
+        void addFavouriteVideo();
+        void addFriend();
+        void updateUserName();
+        void update
     }
 }
