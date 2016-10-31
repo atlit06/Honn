@@ -1,6 +1,6 @@
 namespace Assignment3.Models
 {
-    public class User
+    public class UserDTO
     {
         public string username { get; set; }
         public string email    { get; set; }
