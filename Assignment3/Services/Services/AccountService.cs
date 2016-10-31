@@ -52,8 +52,7 @@ namespace Assignment3.Services
             return new AuthorizedUserDTO {
                 accessToken = "Gegeg",
                 fullName = "John Doe",
-                username = "johnDoe",
-                role = "admin"
+                username = "johnDoe"
             };
         }
 

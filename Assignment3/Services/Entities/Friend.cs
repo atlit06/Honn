@@ -4,7 +4,7 @@ namespace Assignment3.Services.Entities
 {
     public class Friend
     {
-        public string friendee    { get; set; }
-        public string friended    { get; set; }
+        public int friendee    { get; set; }
+        public int friended    { get; set; }
     }
 }
