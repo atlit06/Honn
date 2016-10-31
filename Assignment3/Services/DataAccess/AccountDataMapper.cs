@@ -38,7 +38,7 @@ namespace Assignment3.Services.DataAccess
                         where userID == u.id
                         select u).SingleOrDefault();
             Token userToken = (from t in _db.Tokens
-                               where userID == t.id
+                               where userID == t.userID
                                select t).SingleOrDefault();
             _db.Remove(userToken);
             _db.Remove(usr);
