@@ -58,13 +58,10 @@ namespace Assignment3.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("updatePassword")]
         public IActionResult updatePassword([FromBody] UpdatePasswordDTO user) {
             string accessToken = Request.Headers["Authorization"];
-            Console.WriteLine(accessToken);
-            Console.WriteLine(user.username);
-            Console.WriteLine(user.newPassword);
             user.accessToken = accessToken;
             try
             {
@@ -80,6 +77,28 @@ namespace Assignment3.Controllers
             catch (AppValidationException) {
                 return Unauthorized();
             }
+        }
+
+        [HttpDelete]
+        [Route("deleteUser")]
+        public IActionResult deleteUser([FromBody] AuthorizedUserDTO user) {
+            string accessToken = Request.Headers["Authorization"];
+            user.accessToken = accessToken;
+            try
+            {
+                _accountService.deleteUser(user);
+                return Ok();
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (AppObjectNotFoundException e) {
+                return NotFound(e.Message);
+            }
+            catch (AppValidationException) {
+                return Unauthorized();
+            }
+
         }
     }
 }

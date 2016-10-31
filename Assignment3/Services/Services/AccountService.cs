@@ -95,6 +95,18 @@ namespace Assignment3.Services
 
         public void deleteUser(AuthorizedUserDTO user)
         {
+            if (user.username == null || user.username == "" ||
+            user.password == null || user.password == "") {
+                throw new InvalidParametersException("To delete this user the user needs to provide his username and password.");
+            }
+            User currentUser = _accountMapper.findUserByUsername(user.username);
+            if (currentUser == null) {
+                throw new AppObjectNotFoundException("User not found");
+            }
+            if (user.password != currentUser.password || !_tokenService.validateUserToken(user.accessToken, user.username)) {
+                throw new AppValidationException();
+            }
+            _accountMapper.deleteUser(currentUser.username);
             return;
         }
     }
