@@ -13,6 +13,5 @@ namespace Assignment3.Services
         void addFriend();
         void updateUserName();
         void updateEmail();
-        
     }
 }

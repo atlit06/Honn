@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Assignment3.Services.Entities;
 
 namespace Assignment3.Services.DataAccess
@@ -10,10 +11,14 @@ namespace Assignment3.Services.DataAccess
         }
 
         public User findUserByUsername(string username) {
-            return new User();
+            return (from u in _db.Users
+                    where username == u.username
+                    select u).SingleOrDefault();
         }
 
         public void createUser(User user) {
+            _db.Users.Add(user);
+            _db.SaveChanges();
             return;
         }
     }
