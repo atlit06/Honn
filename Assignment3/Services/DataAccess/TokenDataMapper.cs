@@ -10,9 +10,9 @@ namespace Assignment3.Services.DataAccess
             _db = db;
         }
 
-        public Token getTokenByUsername(string username) {
+        public Token getTokenByUserID(int userID) {
             return (from t in _db.Tokens
-                    where username == t.userID
+                    where userID == t.userID
                     select t).FirstOrDefault();
         }
 

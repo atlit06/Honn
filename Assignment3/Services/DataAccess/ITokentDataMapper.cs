@@ -5,6 +5,6 @@ namespace Assignment3.Services.DataAccess
     public interface ITokenDataMapper
     {
         void createOrUpdateUserToken(Token token);
-        Token getTokenByUsername(string username);
+        Token getTokenByUserID(int userID);
     }
 }

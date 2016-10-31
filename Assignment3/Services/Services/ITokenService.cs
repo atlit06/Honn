@@ -2,7 +2,7 @@
 namespace Assignment3.Services
 {
     public interface ITokenService {
-        bool validateUserToken(string token, string username);
-        string createUserToken(string username);
+        bool validateUserToken(string token, int userID);
+        string createUserToken(int userID, string username);
     }
 }

@@ -29,19 +29,19 @@ namespace Assignment3.Services.DataAccess
             usr.password = password;
             _db.SaveChanges();
         }
-        public void deleteUser(string username) {
+        public void deleteUser(int userID) {
             /*var userChannels = (from c in _db.ChannelUsers
                                 where username == c.userID
                                 select c);
                                 */
             User usr = (from u in _db.Users
-                        where username == u.username
+                        where userID == u.id
                         select u).SingleOrDefault();
-            _db.Remove(usr);
             Token userToken = (from t in _db.Tokens
-                               where username == t.userID
+                               where userID == t.userID
                                select t).SingleOrDefault();
             _db.Remove(userToken);
+            _db.Remove(usr);
             _db.SaveChanges();
         }
     }
