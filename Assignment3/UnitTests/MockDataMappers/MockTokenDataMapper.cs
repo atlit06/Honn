@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Assignment3.Services.Entities;
 using Assignment3.Services.DataAccess;
 
-namespace Assignment3.Tests.MockDataMappers
+namespace Assignment3.UnitTests.MockDataMappers
 {
     public class MockTokenDataMapper : ITokenDataMapper
     {

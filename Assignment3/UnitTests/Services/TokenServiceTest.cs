@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Assignment3.Services;
-using Assignment3.Tests.MockDataMappers;
+using Assignment3.UnitTests.MockDataMappers;
 using Assignment3.Services.Entities;
 
-namespace Assignment3.Tests
+namespace Assignment3.UnitTests
 {
     public class TokenServiceTest
     {
