@@ -12,6 +12,7 @@ namespace Assignment3.Services
         void addFavouriteVideo();
         void addFriend();
         void updateUserName();
-        void update
+        void updateEmail();
+        
     }
 }
