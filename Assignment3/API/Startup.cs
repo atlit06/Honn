@@ -4,16 +4,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Assignment3.Services;
+using Assignment3.Services.DataAccess;
 
-namespace API
+namespace Assignment3.API
 {
     public class Startup
     {
+        private string _rootFolder;
         public Startup(IHostingEnvironment env)
         {
+            _rootFolder = env.ContentRootPath;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -27,8 +33,13 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+             // Add framework services.
+            services.AddDbContext<AppDataContext>(options =>
+                options.UseSqlite($"Data Source={_rootFolder}/Values.db"));
             // Add framework services.
             services.AddMvc();
+            services.AddTransient<IAccountDataMapper, AccountDataMapper>();
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
