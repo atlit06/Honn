@@ -35,7 +35,7 @@ namespace Assignment3.API
         {
              // Add framework services.
             services.AddDbContext<AppDataContext>(options =>
-                options.UseSqlite($"Data Source={_rootFolder}/Values.db"));
+                options.UseSqlite($"Data Source={_rootFolder}/RuTube.db"));
             // Add framework services.
             services.AddMvc();
             services.AddTransient<IAccountDataMapper, AccountDataMapper>();
