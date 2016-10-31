@@ -7,6 +7,5 @@ namespace Assignment3.Services
        AuthorizedUserDTO authenticateUser(UserDTO user);
        void updatePassword(UpdatePasswordDTO updatePass);
        void deleteUser(AuthorizedUserDTO user);
-       bool verifyUser(AuthorizedUserDTO user);
     }
 }
