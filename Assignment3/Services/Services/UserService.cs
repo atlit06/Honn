@@ -9,24 +9,40 @@ namespace Assignment3.Services
     public class UserService : IUserService
     {
         private IUserDataMapper _mapper;
-        private IAccountService _accService;
+        private ITokenService _tokenService;
 
-        public UserService(IAccountService accountService, IUserDataMapper mapper){
-            _accService = accountService;
+        public UserService(ITokenService tokenService, IUserDataMapper mapper){
+            _tokenService = tokenService;
             _mapper = mapper;
         }
 
-        public void addFavouriteVideo(AuthorizedUserDTO user, VideoDTO video){
-            if(!_accService.verifyUser(user)){
-                throw new InvalidParametersException("To favourite a video you must use a valid token and a valid username");
+        public void updateUserName(UpdateUsernameDTO newUser){
+            int? userId = _mapper.getUserId(newUser.username);
+            if(userId == null){
+                throw new InvalidParametersException("No user found");  
             }
-            if(video.id == null){
-                throw new InvalidParametersException("To favourite a video you must provide a proper Video ID");
+            try
+            {
+                _mapper.changeUsername((int)userId, newUser.newUsername);
+            }
+            catch (Exception e)
+            {
+                throw new InvalidParametersException("Something went wrong with changing username");
+            }
+        }
+
+        public void addFavouriteVideo(AuthorizedUserDTO user, VideoDTO video){
+            if(!_tokenService.validateUserToken(user.username, user.accessToken)){
+                throw new InvalidParametersException("To favourite a video you must use a valid token and a valid username");
             }
             
             try
             {
-                _mapper.addFavourite(user, video);
+                int? userId = _mapper.getUserId(user.username);
+                if(userId == null){
+                    throw new InvalidParametersException("No Matching User");
+                }
+                _mapper.addFavourite((int)userId, video.id);
             }
             catch (Exception e)
             {
@@ -34,32 +50,36 @@ namespace Assignment3.Services
             }
         }
 
-        public void addFriend(AuthorizedUserDTO user, PublicUserDTO friend){
-            if(!_accService.verifyUser(user)){
+        public void addFriend(FriendDTO friendReq){
+            if(!_tokenService.validateUserToken(friendReq.username, friendReq.accessToken)){
                 throw new InvalidParametersException("To add a friend you must use a valid token and a valid username");
-            }
-            if(friend.username == null){
-                throw new InvalidParametersException("To add a friend you must provide a proper username for your friend");
             }
             
             try
             {
-                _mapper.addFriend(user, friend);
+                int? userId = _mapper.getUserId(friendReq.username);
+                int? friendId = _mapper.getUserId(friendReq.friendUsername);
+                _mapper.addFriend((int)userId, (int)friendId);
             }
             catch (Exception e)
             {
                 throw new Exception("Something went wrong with adding a friend");
             }
         }
-
-        public void updateUserName(AuthorizedUserDTO user, UpdateUsernameDTO newUser){
-            
+        
+        public List<VideoDTO> getFavouriteVideos(AuthorizedUserDTO user){
+            int? userId = _mapper.getUserId(user.username);
+            if(userId == null){
+                throw new InvalidParametersException("User cannot be found");
+            }
+            return _mapper.getFavouriteVideos((int)userId);
         }
-        public List<VideoDTO> getFavouriteVideos(){
-            return new List<VideoDTO>();
-        }
-        public List<PublicUserDTO> getFriends(){
-            return new List<PublicUserDTO>();
+        public List<PublicUserDTO> getFriends(AuthorizedUserDTO user){
+            int? userId = _mapper.getUserId(user.username);
+            if(userId == null){
+                throw new InvalidParametersException("User cannot be found");
+            }
+            return _mapper.getFriends((int)userId);
         }
     }
 }
