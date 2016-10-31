@@ -21,7 +21,6 @@ namespace API.Controllers
         public IEnumerable<string> Get()
         {
             
-            _accountService.AddVal();
             return new string[] { "value1", "value2" };
         }
 
