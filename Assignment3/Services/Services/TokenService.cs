@@ -16,8 +16,8 @@ namespace Assignment3.Services
             return System.Convert.ToBase64String(plainTextBytes);
         }
 
-        public bool validateUserToken(string token, string username) {
-            Token userToken = _mapper.getTokenByUsername(username);
+        public bool validateUserToken(string token, int userID) {
+            Token userToken = _mapper.getTokenByUserID(userID);
             if (userToken == null) {
                 return false;
             }
@@ -30,13 +30,13 @@ namespace Assignment3.Services
             }
             return true;
         }
-        public string createUserToken(string username) {
+        public string createUserToken(int userID, string username) {
             string tokenString = username + DateTime.Now.ToString();
             string tokenStringBase64 = Base64Encode(tokenString);
             System.TimeSpan duration = new System.TimeSpan(1, 0, 0, 0);
             string expires = (DateTime.Now.Add(duration)).ToString();
             Token newToken = new Token {
-                userID = username,
+                userID = userID,
                 token = tokenStringBase64,
                 expires = expires
             };

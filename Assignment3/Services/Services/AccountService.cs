@@ -66,7 +66,7 @@ namespace Assignment3.Services
             if (user.password != authenticateUser.password) {
                 throw new AppValidationException("Username and password don't match");
             }
-            string tokenCode = _tokenService.createUserToken(user.username);
+            string tokenCode = _tokenService.createUserToken(authenticateUser.userID, authenticateUser.username);
             return new AuthorizedUserDTO {
                 accessToken = tokenCode,
                 fullName = authenticateUser.fullName,
@@ -83,7 +83,7 @@ namespace Assignment3.Services
             if (currentUser == null) {
                 throw new AppObjectNotFoundException("No user found with this username");
             }
-            if (!_tokenService.validateUserToken(updatePass.accessToken, updatePass.username)) {
+            if (!_tokenService.validateUserToken(updatePass.accessToken, currentUser.userID)) {
                 throw new AppValidationException("Your session has expired please log back in");
             }
             if (updatePass.newPassword == null || updatePass.newPassword == "") {
@@ -103,10 +103,10 @@ namespace Assignment3.Services
             if (currentUser == null) {
                 throw new AppObjectNotFoundException("User not found");
             }
-            if (user.password != currentUser.password || !_tokenService.validateUserToken(user.accessToken, user.username)) {
+            if (user.password != currentUser.password || !_tokenService.validateUserToken(user.accessToken, currentUser.userID)) {
                 throw new AppValidationException();
             }
-            _accountMapper.deleteUser(currentUser.username);
+            _accountMapper.deleteUser(currentUser.userID);
             return;
         }
     }
