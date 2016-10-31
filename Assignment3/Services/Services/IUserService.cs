@@ -6,6 +6,7 @@ namespace Assignment3.Services
     public interface IUserService
     {
         private IUserDataMapper _mapper;
-        
+
+
     }
 }
