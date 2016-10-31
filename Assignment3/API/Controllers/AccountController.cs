@@ -10,7 +10,7 @@ using Assignment3.Services.Exceptions;
 namespace Assignment3.Controllers
 {
     [Route("api/[controller]")]
-    public class AccountController
+    public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
         public AccountController(IAccountService accountService)
@@ -24,7 +24,7 @@ namespace Assignment3.Controllers
             try
             {
                 _accountService.createUser(user);
-                return  new StatusCodeResult(201);
+                return new StatusCodeResult(201);
             }
             catch (InvalidParametersException e) {
                 return new BadRequestObjectResult(e.Message);
