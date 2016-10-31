@@ -16,6 +16,7 @@ namespace Assignment3.Services
        public DbSet<Friend> Friends             { get; set; }
        public DbSet<ChannelUser> ChannelUsers   { get; set; }
        public DbSet<Video> Videos               { get; set; } 
+       public DbSet<FavouriteVideo> Favourites  { get; set; }
 
 
         public AppDataContext(DbContextOptions<AppDataContext> options)

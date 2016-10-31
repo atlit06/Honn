@@ -8,7 +8,7 @@ namespace Assignment3.Services.Entities
         public int ID           { get; set; }
         public string title     { get; set; }
         public string source    { get; set; }
-        public User creator     { get; set; }
+        public int creator     { get; set; }
         public int ChannelID    { get; set; }
     }
 }

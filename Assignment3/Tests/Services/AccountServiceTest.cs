@@ -29,7 +29,7 @@ namespace Assignment3.Tests
             findUserCallCount += 1;
             if (_findUser) {
                 return new User {
-                    userID = 1,
+                    id = 1,
                     username = username,
                     password = "test",
                     email = "test",
