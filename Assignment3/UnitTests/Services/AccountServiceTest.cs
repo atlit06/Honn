@@ -13,7 +13,53 @@ namespace Assignment3.UnitTests
 {
     public class MockAccountDataMapper : IAccountDataMapper
     {
-       
+       private int findUserCallCount;    
+       private int createUserCallCount;		
+       private int updateUserCallCount;		
+       private int deleteUserCallCount;		
+       private bool _findUser;		
+       public MockAccountDataMapper(bool findUser) {		
+           findUserCallCount = 0;		
+           createUserCallCount = 0;		
+           updateUserCallCount = 0;		
+           deleteUserCallCount = 0;		
+           _findUser = findUser;		
+       }		
+       public User findUserByUsername(string username) {		
+           findUserCallCount += 1;		
+           if (_findUser) {		
+               return new User {		
+                   id = 1,		
+                   username = username,		
+                   password = "test",		
+                   email = "test",		
+                   fullName = "test"		
+           };		
+          } else {		
+              return null;		
+          }		
+       }		
+       public void createUser(User user) {		
+           createUserCallCount += 1;		
+       }		
+       public void updateUserPassword(string username, string password) {		
+           updateUserCallCount += 1;		
+       }		
+       public void deleteUser(int userID) {		
+           deleteUserCallCount += 1;		
+       }		
+       public int getFindCallCount() {		
+           return findUserCallCount;		
+       }		
+       public int getCreateCallCount() {		
+           return createUserCallCount;		
+       }		
+       public int getUpdateCallCount() {		
+           return updateUserCallCount;		
+       }		
+       public int getDeleteCallCount() {		
+           return deleteUserCallCount;		
+       }
     }
     public class MockTokenService : ITokenService
     {
