@@ -69,5 +69,11 @@ namespace Assignment3.UnitTests.MockDataMappers
                         username = u.username,
                         email = u.email}).ToList();
         }
+
+        public User getUserInfo(string username){
+            return (from u in Users
+                    where u.username == username
+                    select u).FirstOrDefault();
+        }
     }
 }
