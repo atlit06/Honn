@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ..
 dotnet restore
-cd UnitTests
+cd IntegrationTests
+dotnet build
 dotnet test
