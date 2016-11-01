@@ -38,6 +38,8 @@ namespace Assignment3.Controllers
         [Route("addFriend")]
         public IActionResult addFriend(FriendDTO friendReq)
         {
+            string accessToken = Request.Headers["Authorization"];
+            friendReq.accessToken = accessToken;
             // Basic API -> Service Cals
             // Receive Object Through Post/Get Request
             // Pass Object Too Service Layer
@@ -75,6 +77,8 @@ namespace Assignment3.Controllers
         [Route("addFavourite")]
         public IActionResult addFavourite(NewFavouriteVideoDTO newFavVid)
         {
+            string accessToken = Request.Headers["Authorization"];
+            newFavVid.accessToken = accessToken;
             // Basic API -> Service Cals
             // Receive Object Through Post/Get Request
             // Pass Object Too Service Layer
@@ -113,6 +117,8 @@ namespace Assignment3.Controllers
         [Route("updateUsername")]
         public IActionResult updateUsername(UpdateUsernameDTO user)
         {
+            string accessToken = Request.Headers["Authorization"];
+            user.accessToken = accessToken;
             // Basic API -> Service Cals
             // Receive Object Through Post/Get Request
             // Pass Object Too Service Layer
