@@ -15,6 +15,7 @@ namespace Assignment3.Services.DataAccess
         }
 
         public int? getUserId(string username){
+            // Querry
             return (from u in _db.Users
                     where u.username == username
                     select u.id).FirstOrDefault();
@@ -22,25 +23,41 @@ namespace Assignment3.Services.DataAccess
         }
 
         public void changeUsername(int userId, string newUsername){
+
+            // Querry For The Object
             var user = (from u in _db.Users
                         where u.id == userId
                         select u).FirstOrDefault();
+            // Update the object
             user.username = newUsername;
+
+            // Save the object
             _db.SaveChanges();
+
         }
 
         public void addFavourite(int userId, int videoId){
+            // Querry to add
             _db.Favourites.Add(new FavouriteVideo {videoId = videoId, userId = userId});
+            
+            // save changes
             _db.SaveChanges();
             return;
         }
 
         public void addFriend(int user, int friend){
-            _db.Friends.Add(new Friend{friendee = user, friended = friend});    
+            // Querry to add
+            _db.Friends.Add(new Friend{friendee = user, friended = friend});  
+            
+            // Save Changes
+            _db.SaveChanges();
+            return;  
         }
 
         public List<VideoDTO> getFavouriteVideos(int userId)  { 
-            return (from fv in _db.Favourites
+            
+            // Querry 
+            List<VideoDTO> vids = (from fv in _db.Favourites
                     where fv.userId == userId
                     join v in _db.Videos on fv.videoId equals v.id
                     select new VideoDTO {
@@ -50,18 +67,15 @@ namespace Assignment3.Services.DataAccess
                         creator = v.creator,
                         channelId = v.channelId
                     }).ToList();
+            
+            return vids;   
         }
 
-        public int id          { get; set; }
-        public string title     { get; set; }
-        public string source    { get; set; }
-        public string creator   { get; set; }
-        public int channelId    { get; set; }
-
         public List<PublicUserDTO> getFriends(int userId)     { 
+            // Querry
             return (from f in _db.Friends
-                    where f.friendee == userId
-                    join u in _db.Users on f.friendee equals u.id
+                    where f.friendee == us  erId
+                    join u in _db.Users on f.friended equals u.id
                     select new PublicUserDTO{
                         username = u.username,
                         email = u.email}).ToList();

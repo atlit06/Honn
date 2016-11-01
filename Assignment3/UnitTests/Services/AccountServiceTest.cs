@@ -69,7 +69,9 @@ namespace Assignment3.UnitTests
             validateCallCount = 0;
             createCallCount = 0;
         }
-
+        public string getUsernameFromTokenString(string id) {
+            return "";
+        }
         public bool validateUserToken(string token, int userID) {
             validateCallCount += 1;
             return true;

@@ -1,6 +1,7 @@
 using System;
 using Assignment3.Services.DataAccess;
 using Assignment3.Services.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace Assignment3.Services
 {
@@ -30,8 +31,15 @@ namespace Assignment3.Services
             }
             return true;
         }
+        /// <summary>
+        /// Creates a base64 encoded string based on the username and the current datetime,
+        /// tokens are valid for 24 hours.
+        /// </summary>
+        /// <param name="userID">ID of the user</param>
+        /// <param name="username">the users username</param>
+        /// <returns>the newly created user token</returns>
         public string createUserToken(int userID, string username) {
-            string tokenString = username + DateTime.Now.ToString();
+            string tokenString = "{ \"username\": \"" + username +"\", \"time\": \"" + DateTime.Now.ToString() + "\" }";
             string tokenStringBase64 = Base64Encode(tokenString);
             System.TimeSpan duration = new System.TimeSpan(1, 0, 0, 0);
             string expires = (DateTime.Now.Add(duration)).ToString();
@@ -42,6 +50,14 @@ namespace Assignment3.Services
             };
             _mapper.createOrUpdateUserToken(newToken);
             return tokenStringBase64;
+        }
+
+        public string getUsernameFromTokenString(string tokenString) {
+            byte[] data = Convert.FromBase64String(tokenString);
+            string decodedString = System.Text.Encoding.UTF8.GetString(data);
+            JObject jsonParsed = JObject.Parse(decodedString);
+            return jsonParsed["username"].ToString();
+
         }
     }
 }
