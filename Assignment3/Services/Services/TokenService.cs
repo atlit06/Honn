@@ -30,6 +30,13 @@ namespace Assignment3.Services
             }
             return true;
         }
+        /// <summary>
+        /// Creates a base64 encoded string based on the username and the current datetime,
+        /// tokens are valid for 24 hours.
+        /// </summary>
+        /// <param name="userID">ID of the user</param>
+        /// <param name="username">the users username</param>
+        /// <returns>the newly created user token</returns>
         public string createUserToken(int userID, string username) {
             string tokenString = username + DateTime.Now.ToString();
             string tokenStringBase64 = Base64Encode(tokenString);

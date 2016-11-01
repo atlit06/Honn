@@ -41,12 +41,7 @@ namespace Assignment3.Services
                 fullName = userDTO.fullName,
                 password = userDTO.password
             };
-            /*try
-            {*/
-                _accountMapper.createUser(newUser);
-            /*} catch (Exception e) {
-                throw new Exception("something went wrong when creating the user");
-            }*/
+            _accountMapper.createUser(newUser);
             return;
         }
 
