@@ -18,6 +18,7 @@ namespace Assignment3.Services
             _tokenService = tokenService;
         }
 
+        // Creates a new user in the database
         public void createUser(UserDTO userDTO)
         {
             if (
@@ -45,6 +46,7 @@ namespace Assignment3.Services
             return;
         }
 
+        // Authenticates a user and gives him an access token which is valid for 24 hours
         public AuthorizedUserDTO authenticateUser(UserDTO user)
         {
             if (user.username == null || user.username == "" ||
@@ -69,6 +71,7 @@ namespace Assignment3.Services
             };
         }
 
+        // Updates the password of an existing user
         public void updatePassword(UpdatePasswordDTO updatePass)
         {
           
@@ -89,6 +92,7 @@ namespace Assignment3.Services
             return;
         }
 
+        // Deletes an existing user
         public void deleteUser(AuthorizedUserDTO user)
         {
             if (user.username == null || user.username == "" ||

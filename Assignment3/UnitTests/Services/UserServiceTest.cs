@@ -35,7 +35,7 @@ namespace Assignment3.UnitTests
             
 
 
-           _service.updateUserName(new UpdateUsernameDTO {  
+           _service.updateUsername(new UpdateUsernameDTO {  
                 username = "janus",
                 email = "jth@365.is",
                 password = "qwerty",

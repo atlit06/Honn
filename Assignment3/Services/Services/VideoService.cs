@@ -16,7 +16,8 @@ namespace Assignment3.Services
             _videoMapper = videoMapper;
             _accountMapper = accountMapper;
         }
-        
+
+       // Maps a Video object to a VideoDTO object. 
         private List<VideoDTO> videoToDTO(List<Video> videos) {
             List<VideoDTO> returnList = new List<VideoDTO>();
             foreach (Video vid in videos) {
