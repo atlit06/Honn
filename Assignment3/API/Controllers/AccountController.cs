@@ -36,7 +36,7 @@ namespace Assignment3.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult login([FromBody] UserDTO user)
+        public IActionResult login(UserDTO user)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Assignment3.Controllers
 
         [HttpPut]
         [Route("updatePassword")]
-        public IActionResult updatePassword([FromBody] UpdatePasswordDTO user) {
+        public IActionResult updatePassword(UpdatePasswordDTO user) {
             string accessToken = Request.Headers["Authorization"];
             user.accessToken = accessToken;
             try

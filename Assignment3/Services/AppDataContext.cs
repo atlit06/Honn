@@ -22,6 +22,8 @@ namespace Assignment3.Services
         public AppDataContext(DbContextOptions<AppDataContext> options)
             : base(options)
         {
+            this.Database.OpenConnection();
+            this.Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

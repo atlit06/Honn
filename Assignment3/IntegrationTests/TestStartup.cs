@@ -27,6 +27,7 @@ namespace Assignment3.IntegrationTests
             var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
             var connectionString = connectionStringBuilder.ToString();
             var connection = new SqliteConnection(connectionString);
+            connection.Open();
             services
             .AddEntityFrameworkSqlite()
             .AddDbContext<AppDataContext>(
