@@ -7,11 +7,11 @@ namespace Assignment3.Services
 {
     public interface IUserService
     {        
-        void addFavouriteVideo(AuthorizedUserDTO user, VideoDTO video);
+        void addFavouriteVideo(NewFavouriteVideoDTO newFav);
         void addFriend(FriendDTO friendReq);
-        void updateUserName(UpdateUsernameDTO newUser);
-        List<VideoDTO> getFavouriteVideos(AuthorizedUserDTO user);
-        List<PublicUserDTO> getFriends(AuthorizedUserDTO user);
+        void updateUsername(UpdateUsernameDTO newUser);
+        List<VideoDTO> getFavouriteVideos(PublicUserDTO user);
+        List<PublicUserDTO> getFriends(PublicUserDTO user);
 
     }
 }

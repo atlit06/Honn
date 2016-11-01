@@ -9,13 +9,13 @@ namespace Assignment3.UnitTests.MockDataMappers
 {
     public class MockUserDataMapper : IUserDataMapper
     {
-        public virtual ICollection<User>            Users           { get; set; }
-        public virtual ICollection<Channel>         Channels        { get; set; }
-        public virtual ICollection<Token>           Tokens          { get; set; }
-        public virtual ICollection<Friend>          Friends         { get; set; }
-        public virtual ICollection<ChannelUser>     ChannelUsers    { get; set; }
-        public virtual ICollection<Video>           Videos          { get; set; } 
-        public virtual ICollection<FavouriteVideo>  Favourites      { get; set; }
+        public List<User>            Users           { get; set; }
+        public List<Channel>         Channels        { get; set; }
+        public List<Token>           Tokens          { get; set; }
+        public List<Friend>          Friends         { get; set; }
+        public List<ChannelUser>     ChannelUsers    { get; set; }
+        public List<Video>           Videos          { get; set; } 
+        public List<FavouriteVideo>  Favourites      { get; set; }
         
         
         public int? getUserId(string username){
@@ -24,6 +24,18 @@ namespace Assignment3.UnitTests.MockDataMappers
                     select u.id).FirstOrDefault();
             
         }
+
+        public MockUserDataMapper(){
+            
+            Users = new List<User>();
+            Channels = new List<Channel>();
+            Tokens = new List<Token>();
+            Friends = new List<Friend>();
+            ChannelUsers = new List<ChannelUser>();
+            Videos = new List<Video>();
+            Favourites = new List<FavouriteVideo>();
+        }
+
         public void changeUsername(int userId, string newUsername){
             var user = (from u in Users
                         where u.id == userId

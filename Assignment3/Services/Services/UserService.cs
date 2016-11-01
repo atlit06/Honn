@@ -16,74 +16,100 @@ namespace Assignment3.Services
             _mapper = mapper;
         }
 
-        public void updateUserName(UpdateUsernameDTO newUser){
+        public void updateUsername(UpdateUsernameDTO newUser){
+            // Make sure the object is not empty
+            if( newUser.username == null || 
+                newUser.password == null ||
+                newUser.email    == null ||
+                newUser.fullName == null ||
+                newUser.accessToken == null ||
+                newUser.newUsername == null){
+                    throw new InvalidParametersException("All parameters of UpdateUsernameDTO    must be set");
+                }
+            // If the int is NULL  the user does not exist
             int? userId = _mapper.getUserId(newUser.username);
             if(userId == null){
                 throw new InvalidParametersException("No user found");  
             }
-            try
-            {
-                _mapper.changeUsername((int)userId, newUser.newUsername);
+            // Authenticate, if this equates to True we did not Authenticate with given information
+            if(!_tokenService.validateUserToken(newUser.accessToken, (int)userId)){
+                throw new InvalidParametersException("To favourite a video you must use a valid token and a valid username");
             }
-            catch (Exception)
-            {
-                throw new InvalidParametersException("Something went wrong with changing username");
-            }
+            // Make a DataLayer Call
+            _mapper.changeUsername((int)userId, newUser.newUsername);
         }
 
-        public void addFavouriteVideo(AuthorizedUserDTO user, VideoDTO video){
-            int? userId = _mapper.getUserId(user.username);
+        public void addFavouriteVideo(NewFavouriteVideoDTO newFav){
+            // Make sure the passed down object does not contain null variables
+            if( newFav.username == null || 
+                newFav.password == null ||
+                newFav.email    == null ||
+                newFav.fullName == null ||
+                newFav.accessToken == null ||
+                newFav.videoId == null){
+                    throw new InvalidParametersException("All parameters of NewFavouriteVideoDTO must be set");
+                }
+            // if userId is null the user does not exist and we throw an exception 
+            int? userId = _mapper.getUserId(newFav.username);
             if(userId == null){
                 throw new InvalidParametersException("User does not exist in database");
             }
-            if(!_tokenService.validateUserToken(user.accessToken, (int)userId)){
+
+            // Make sure we are Authenticated using a authentication service 
+            if(!_tokenService.validateUserToken(newFav.accessToken, (int)userId)){
                 throw new InvalidParametersException("To favourite a video you must use a valid token and a valid username");
             }
             
-            try
-            {
-                _mapper.addFavourite((int)userId, video.id);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Something went wrong with favouriting a video");
-            }
+
+            // Datalayer call to add favourite video to the favourites
+            _mapper.addFavourite((int)userId, newFav.videoId);
+            
         }
 
         public void addFriend(FriendDTO friendReq){
-
+            // If userid is null the user does not exist
             int? userId = _mapper.getUserId(friendReq.username);
             if(userId == null){
                 throw new InvalidParametersException("User does not exist in database");
             }
 
+            // If friendId is null the friend does not exist
+            int? friendId = _mapper.getUserId(friendReq.friendUsername);
+            if(friendId == null){
+                throw new InvalidParametersException("User does not exist in database");
+            }
+
+            // if friendUsername is null the friend does not exist
+            if(friendReq.friendUsername == null){
+                throw new InvalidParametersException("Friend username must be set in order to add a friend");
+            }
+
+            // Authenticate the user adding the friend
             if(!_tokenService.validateUserToken(friendReq.accessToken, (int)userId)){
                 throw new InvalidParametersException("To add a friend you must use a valid token and a valid username");
             }
-            
-            try
-            {
-                int? friendId = _mapper.getUserId(friendReq.friendUsername);
-                _mapper.addFriend((int)userId, (int)friendId);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Something went wrong with adding a friend");
-            }
+    
+            // Datalayer call to create the 2 friends
+            _mapper.addFriend((int)userId, (int)friendId);
         }
         
-        public List<VideoDTO> getFavouriteVideos(AuthorizedUserDTO user){
+        public List<VideoDTO> getFavouriteVideos(PublicUserDTO user){
+            // If the userId is nul the user does not exist
             int? userId = _mapper.getUserId(user.username);
             if(userId == null){
                 throw new InvalidParametersException("User cannot be found");
             }
+            // Do a Datalayer Call
             return _mapper.getFavouriteVideos((int)userId);
         }
-        public List<PublicUserDTO> getFriends(AuthorizedUserDTO user){
+        public List<PublicUserDTO> getFriends(PublicUserDTO user){
+            // If the userId is nul the user does not exist
             int? userId = _mapper.getUserId(user.username);
             if(userId == null){
                 throw new InvalidParametersException("User cannot be found");
             }
+
+            // Do a DataLayer Call
             return _mapper.getFriends((int)userId);
         }
     }
