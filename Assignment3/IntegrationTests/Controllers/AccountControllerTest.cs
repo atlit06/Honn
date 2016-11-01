@@ -33,7 +33,10 @@ namespace Assignment3.IntegrationTests
            // var response = await client.GetAsync("/api/account/signup");
            var content = new FormUrlEncodedContent(new[]
         {
-             new KeyValuePair<string, string>("username", "steinn")
+             new KeyValuePair<string, string>("username", "steinn"),
+             new KeyValuePair<string, string>("password", "steinn"),
+             new KeyValuePair<string, string>("email", "steinn@steinn.is"),
+             new KeyValuePair<string, string>("fullName", "Steinn Ellidi")
         });
            var response = await client.PostAsync("/api/account/signup", content);
             response.EnsureSuccessStatusCode();
