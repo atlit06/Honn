@@ -25,7 +25,7 @@ namespace Assignment3.Services
             {
                 _mapper.changeUsername((int)userId, newUser.newUsername);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new InvalidParametersException("Something went wrong with changing username");
             }
@@ -44,7 +44,7 @@ namespace Assignment3.Services
             {
                 _mapper.addFavourite((int)userId, video.id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new Exception("Something went wrong with favouriting a video");
             }
@@ -66,7 +66,7 @@ namespace Assignment3.Services
                 int? friendId = _mapper.getUserId(friendReq.friendUsername);
                 _mapper.addFriend((int)userId, (int)friendId);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new Exception("Something went wrong with adding a friend");
             }
