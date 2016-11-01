@@ -3,6 +3,7 @@ using Assignment3.Models;
 using Assignment3.Services.DataAccess;
 using Assignment3.Services.Entities;
 using Assignment3.Services.Exceptions;
+using System;
 namespace Assignment3.Services
 {
     public class VideoService : IVideoService
@@ -16,18 +17,7 @@ namespace Assignment3.Services
             _accountMapper = accountMapper;
         }
 
-        public List<VideoDTO> getAllVideos(AuthorizedUserDTO user) {
-            if (user.username == null || user.username == "") {
-                throw new InvalidParametersException("username not defined");
-            }
-            User loggedInUser = _accountMapper.findUserByUsername(user.username);
-            if (loggedInUser == null) {
-                throw new AppObjectNotFoundException("no user found with that username");
-            }
-            if(!_tokenService.validateUserToken(user.accessToken, loggedInUser.id)){
-                throw new AppValidationException("You need to be logged in to use the video services");
-            }
-            List<Video> videos = _videoMapper.getAllVideos();
+        private List<VideoDTO> videoToDTO(List<Video> videos) {
             List<VideoDTO> returnList = new List<VideoDTO>();
             foreach (Video vid in videos) {
                 VideoDTO dto = new VideoDTO {
@@ -41,16 +31,71 @@ namespace Assignment3.Services
             }
             return returnList;
         }
-        public List<VideoDTO> getAllVideosByChannel(AuthorizedUserDTO user, int channelID) {
-            return new List<VideoDTO>();
+
+        private User getValidatedUser(string accessToken) {
+            string username = _tokenService.getUsernameFromTokenString(accessToken);
+            if (username == null || username == "") {
+                throw new InvalidParametersException("username not defined");
+            }
+            User loggedInUser = _accountMapper.findUserByUsername(username);
+            if (loggedInUser == null) {
+                throw new AppObjectNotFoundException("no user found with that username");
+            }
+            if(!_tokenService.validateUserToken(accessToken, loggedInUser.id)){
+                throw new AppValidationException("You need to be logged in to use the video services");
+            }
+            return loggedInUser;
+        }
+
+        public List<VideoDTO> getAllVideos(string accessToken) {
+            User loggedInUser = getValidatedUser(accessToken);
+            List<Video> videos = _videoMapper.getAllVideos();
+            return videoToDTO(videos);
+        }
+        public ChannelVideosDTO getAllVideosByChannel(string accessToken, int channelID) {
+            User loggedInUser = getValidatedUser(accessToken);
+            Channel channel = _videoMapper.getChannelById(channelID);
+            if (channel == null) {
+                throw new AppObjectNotFoundException("no channel found with this id");
+            }
+            List<Video> videos = _videoMapper.getAllVideosInChannel(channelID);
+            ChannelVideosDTO channelVids = new ChannelVideosDTO {
+                channelID = channel.ID,
+                title = channel.title,
+                videos = videoToDTO(videos)
+            };
+            return channelVids;
         }
         public Video getVideoByID(int videoID) {
             return new Video();
         }
-        public void addChannelVideo(AuthorizedUserDTO user, int channelID, VideoDTO video) {
-            return;
+        public VideoDTO addChannelVideo(string accessToken, int channelID, VideoDTO video) {
+            User loggedInUser = getValidatedUser(accessToken);
+            if (video.title == null || video.title == "" ||
+                video.source == null || video.source == "") {
+                    throw new InvalidParametersException("video title or source not defined");
+            }
+            if (_videoMapper.getChannelById(channelID) == null) {
+                throw new AppObjectNotFoundException("no channel found with this id");
+            }
+            Video newVid = new Video();
+            newVid.channelId = channelID;
+            newVid.creator = loggedInUser.id;
+            newVid.source = video.source;
+            newVid.title = video.title;
+            int vidId = _videoMapper.addVideo(newVid);
+            video.channelId = channelID;
+            video.creator = loggedInUser.id;
+            video.id = vidId;
+            return video;
         }
-        public void deleteVideo(AuthorizedUserDTO user, int videoID) {
+        public void deleteVideo(string accessToken, int videoID) {
+            User loggedInUser = getValidatedUser(accessToken);
+            Video vid = _videoMapper.getVideoById(videoID);
+            if (vid.creator != loggedInUser.id) {
+                throw new AppValidationException("Only the video creator can delete a video");
+            }
+            _videoMapper.deleteVideoById(videoID);
             return;
         }
     }

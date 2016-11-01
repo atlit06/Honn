@@ -5,10 +5,10 @@ namespace Assignment3.Services
 {
     public interface IVideoService
     {
-        List<VideoDTO> getAllVideos(AuthorizedUserDTO user);
-        List<VideoDTO> getAllVideosByChannel(AuthorizedUserDTO user, int channelID);
+        List<VideoDTO> getAllVideos(string accessToken);
+        ChannelVideosDTO getAllVideosByChannel(string accessToken, int channelID);
         Video getVideoByID(int videoID);
-        void addChannelVideo(AuthorizedUserDTO user, int channelID, VideoDTO video);
-        void deleteVideo(AuthorizedUserDTO user, int videoID);
+        VideoDTO addChannelVideo(string accessToken, int channelID, VideoDTO video);
+        void deleteVideo(string accessToken, int videoID);
     }
 }
