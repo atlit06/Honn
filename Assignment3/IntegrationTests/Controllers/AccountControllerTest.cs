@@ -92,10 +92,6 @@ namespace Assignment3.IntegrationTests
            Assert.NotNull(jsonParsed["accessToken"]);
            Assert.Equal(jsonParsed["fullName"], "Steinn Ellidi");
            Assert.Equal(jsonParsed["username"], "steinn");
-           /*
-           Console.WriteLine(jsonParsed["accessToken"]);
-           Console.WriteLine(login);
-           */
 
            // Testing login with no password
            var badCredentials = new FormUrlEncodedContent(new[]
@@ -145,17 +141,38 @@ namespace Assignment3.IntegrationTests
            JObject jsonParsed = JObject.Parse(contents);
            // setting access token
            string accessToken = jsonParsed["accessToken"].ToString();
-           client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("", accessToken);
+           client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         }
-
+        [Fact]
         public async void TestUpdatePassword() {
-           loginUser();
+           // Start by logging in a user
+           var signupCredentials = new FormUrlEncodedContent(new[]
+           {
+             new KeyValuePair<string, string>("username", "steinn"),
+             new KeyValuePair<string, string>("password", "steinn"),
+             new KeyValuePair<string, string>("email", "steinn@steinn.is"),
+             new KeyValuePair<string, string>("fullName", "Steinn Ellidi")
+           });
+           var response = await client.PostAsync("/api/account/signup", signupCredentials);
+           var loginCredentials = new FormUrlEncodedContent(new[]
+           {
+             new KeyValuePair<string, string>("username", "steinn"),
+             new KeyValuePair<string, string>("password", "steinn"),
+           });
+           var login = await client.PostAsync("/api/account/login", loginCredentials);
+           var contents = await login.Content.ReadAsStringAsync();
+           JObject jsonParsed = JObject.Parse(contents);
+           // setting access token
+           string accessToken = jsonParsed["accessToken"].ToString();
+           client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
            // Successfully updating credentials
            var updatePasswordCredentials = new FormUrlEncodedContent(new[]
            {
              new KeyValuePair<string, string>("username", "steinn"),
+             new KeyValuePair<string, string>("newPassword", "steinn2")
            });
-           var update = await client.PostAsync("/api/account/updatePassword", updatePasswordCredentials);
+           var update = await client.PutAsync("/api/account/updatePassword", updatePasswordCredentials);
            Assert.Equal(HttpStatusCode.OK, update.StatusCode);
 
            // Try updating with a bad token
@@ -163,21 +180,40 @@ namespace Assignment3.IntegrationTests
            {
              new KeyValuePair<string, string>("username", "steinn"),
            });
-           client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("", "");
-           var noUpdate = await client.PostAsync("/api/account/updatePassword", failedUpdate);
-           Assert.Equal(HttpStatusCode.Unauthorized, update.StatusCode);
+           client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "teeat");
+           var noUpdate = await client.PutAsync("/api/account/updatePassword", failedUpdate);
+           Assert.Equal(HttpStatusCode.Unauthorized, noUpdate.StatusCode);
         }
-
+        [Fact]
         public async void deleteUser() {
-            loginUser();
+           // Start by logging in a user
+           var signupCredentials = new FormUrlEncodedContent(new[]
+           {
+             new KeyValuePair<string, string>("username", "steinn"),
+             new KeyValuePair<string, string>("password", "steinn"),
+             new KeyValuePair<string, string>("email", "steinn@steinn.is"),
+             new KeyValuePair<string, string>("fullName", "Steinn Ellidi")
+           });
+           var response = await client.PostAsync("/api/account/signup", signupCredentials);
+           var loginCredentials = new FormUrlEncodedContent(new[]
+           {
+             new KeyValuePair<string, string>("username", "steinn"),
+             new KeyValuePair<string, string>("password", "steinn"),
+           });
+           var login = await client.PostAsync("/api/account/login", loginCredentials);
+           var contents = await login.Content.ReadAsStringAsync();
+           JObject jsonParsed = JObject.Parse(contents);
+           // setting access token
+           string accessToken = jsonParsed["accessToken"].ToString();
+           client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             // Delete an existing user
             var deleteCredentials = new FormUrlEncodedContent(new[]
             {
               new KeyValuePair<string, string>("username", "steinn"),
               new KeyValuePair<string, string>("password", "steinn"),
             });
-           var response = await client.PostAsync("/api/account/deleteUser", deleteCredentials);
-           Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+           var deleteOk = await client.PostAsync("/api/account/deleteUser", deleteCredentials);
+           Assert.Equal(HttpStatusCode.OK, deleteOk.StatusCode);
 
            // Delete a nonexisting user
            var deleteCredentials2 = new FormUrlEncodedContent(new[]
@@ -185,7 +221,7 @@ namespace Assignment3.IntegrationTests
              new KeyValuePair<string, string>("username", "steinn"),
              new KeyValuePair<string, string>("password", "steinn"),
            });
-           var response2 = await client.PostAsync("/api/account/deleteUser", deleteCredentials);
+           var response2 = await client.PostAsync("/api/account/deleteUser", deleteCredentials2);
            Assert.Equal(HttpStatusCode.NotFound, response2.StatusCode);
 
 

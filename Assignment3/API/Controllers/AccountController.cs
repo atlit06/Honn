@@ -127,7 +127,7 @@ namespace Assignment3.Controllers
         /// </summary>
         /// <param name="user">the user object containing username and password</param>
         /// <returns>200 ok for a succesful deletion</returns>
-        [HttpDelete]
+        [HttpPost]
         [Route("deleteUser")]
         public IActionResult deleteUser(AuthorizedUserDTO user) {
             string accessToken = Request.Headers["Authorization"];

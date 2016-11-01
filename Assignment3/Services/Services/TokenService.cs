@@ -26,7 +26,7 @@ namespace Assignment3.Services
             if (DateTime.Compare(DateTime.Now, expiry) > 0) {
                 return false;
             }
-            if (userToken.token != token) {
+            if ("Bearer " + userToken.token != token) {
                 return false;
             }
             return true;
@@ -53,6 +53,10 @@ namespace Assignment3.Services
         }
 
         public string getUsernameFromTokenString(string tokenString) {
+            if (tokenString == null || tokenString == "") {
+                return null;
+            }
+            tokenString = tokenString.Substring(7, tokenString.Length - 7);
             byte[] data = Convert.FromBase64String(tokenString);
             string decodedString = System.Text.Encoding.UTF8.GetString(data);
             JObject jsonParsed = JObject.Parse(decodedString);

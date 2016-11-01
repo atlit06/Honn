@@ -133,6 +133,31 @@ namespace API.Controllers
             }
 
         }
+        /// <summary>
+        /// Add a new channel to the RuTube website
+        /// </summary>
+        /// <param name="ch">the channel object to be added</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("channel")]
+        public IActionResult postChannel(ChannelDTO ch) {
+            try
+            {
+                string accessToken = Request.Headers["Authorization"];
+                int video = _videoService.addChannel(accessToken, ch);
+                return new StatusCodeResult(201);
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (AppObjectNotFoundException e) {
+                return NotFound(e.Message);
+            }
+            catch (AppValidationException) {
+                return Unauthorized();
+            }
+
+        }
 
         /// <summary>
         /// Delete a video by id 

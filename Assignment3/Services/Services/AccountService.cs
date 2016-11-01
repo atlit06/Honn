@@ -71,6 +71,7 @@ namespace Assignment3.Services
 
         public void updatePassword(UpdatePasswordDTO updatePass)
         {
+          
             if (updatePass.username == null || updatePass.username == "") {
                 throw new InvalidParametersException("username needs to be defined");
             }
