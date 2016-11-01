@@ -32,6 +32,7 @@ namespace Assignment3.Services
             return returnList;
         }
 
+        // Checks if the user exists and is validated correctly, returns the user object if he is.
         private User getValidatedUser(string accessToken) {
             string username = _tokenService.getUsernameFromTokenString(accessToken);
             if (username == null || username == "") {
@@ -52,6 +53,7 @@ namespace Assignment3.Services
             List<Video> videos = _videoMapper.getAllVideos();
             return videoToDTO(videos);
         }
+
         public ChannelVideosDTO getAllVideosByChannel(string accessToken, int channelID) {
             User loggedInUser = getValidatedUser(accessToken);
             Channel channel = _videoMapper.getChannelById(channelID);
@@ -66,32 +68,44 @@ namespace Assignment3.Services
             };
             return channelVids;
         }
+
         public Video getVideoByID(int videoID) {
             return new Video();
         }
+
         public VideoDTO addChannelVideo(string accessToken, int channelID, VideoDTO video) {
+
             User loggedInUser = getValidatedUser(accessToken);
             if (video.title == null || video.title == "" ||
                 video.source == null || video.source == "") {
                     throw new InvalidParametersException("video title or source not defined");
             }
+
             if (_videoMapper.getChannelById(channelID) == null) {
                 throw new AppObjectNotFoundException("no channel found with this id");
             }
+
             Video newVid = new Video();
             newVid.channelId = channelID;
             newVid.creator = loggedInUser.id;
             newVid.source = video.source;
             newVid.title = video.title;
+            
             int vidId = _videoMapper.addVideo(newVid);
+
             video.channelId = channelID;
             video.creator = loggedInUser.id;
             video.id = vidId;
+
             return video;
         }
+
         public void deleteVideo(string accessToken, int videoID) {
             User loggedInUser = getValidatedUser(accessToken);
             Video vid = _videoMapper.getVideoById(videoID);
+            if (vid == null) {
+                throw new AppObjectNotFoundException("No video was found with that id");
+            }
             if (vid.creator != loggedInUser.id) {
                 throw new AppValidationException("Only the video creator can delete a video");
             }
