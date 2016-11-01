@@ -10,5 +10,6 @@ namespace Assignment3.Services
         Video getVideoByID(int videoID);
         VideoDTO addChannelVideo(string accessToken, int channelID, VideoDTO video);
         void deleteVideo(string accessToken, int videoID);
+        int addChannel(string accessToken, ChannelDTO ch);
     }
 }

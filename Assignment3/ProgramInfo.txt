@@ -1,0 +1,13 @@
+1) In order to run this project dotnet core needs to be installed on the computer.
+Installing info is available here: https://www.microsoft.com/net/core#windows for windows,
+and here: https://www.microsoft.com/net/core#macos for mac.
+
+2) You need to restore all packages, that is done from the folder Assignment3 with the dotnet restore command.
+
+3) To build and run the API project navigate to the API folder and run the commands 
+    i) dotnet build 
+    ii) dotnet run
+
+4) To run all unit tests in the project navigate to the UnitTests folder and run the command dotnet test
+
+5) To run all integration tests in the project navigate to the IntegrationTests folder and run the command dotnet test

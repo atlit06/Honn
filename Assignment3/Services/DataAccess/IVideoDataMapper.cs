@@ -11,5 +11,6 @@ namespace Assignment3.Services.DataAccess
         Video getVideoById(int id);
         int addVideo(Video vid);
         void deleteVideoById(int id);
+        int addChannel(Channel ch);
     }
 }

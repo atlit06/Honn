@@ -16,7 +16,7 @@ namespace Assignment3.Services
             _videoMapper = videoMapper;
             _accountMapper = accountMapper;
         }
-
+        
         private List<VideoDTO> videoToDTO(List<Video> videos) {
             List<VideoDTO> returnList = new List<VideoDTO>();
             foreach (Video vid in videos) {
@@ -36,7 +36,7 @@ namespace Assignment3.Services
         private User getValidatedUser(string accessToken) {
             string username = _tokenService.getUsernameFromTokenString(accessToken);
             if (username == null || username == "") {
-                throw new InvalidParametersException("username not defined");
+                throw new InvalidParametersException("username not defined or empty");
             }
             User loggedInUser = _accountMapper.findUserByUsername(username);
             if (loggedInUser == null) {
@@ -46,6 +46,17 @@ namespace Assignment3.Services
                 throw new AppValidationException("You need to be logged in to use the video services");
             }
             return loggedInUser;
+        }
+
+        public int addChannel(string accessToken, ChannelDTO ch) {
+            User loggedInUser = getValidatedUser(accessToken);
+            if (ch.title == null || ch.title == "") {
+                throw new InvalidParametersException("channel title not defined or empty");
+            }
+            Channel channel = new Channel {
+                title = ch.title
+            };
+            return _videoMapper.addChannel(channel);
         }
 
         public List<VideoDTO> getAllVideos(string accessToken) {

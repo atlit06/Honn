@@ -23,10 +23,10 @@ namespace Assignment3.UnitTests
             tokens.Add(t1);
             MockTokenDataMapper mapper = new MockTokenDataMapper(tokens);
             TokenService service = new TokenService(mapper);
-            Assert.Equal(service.validateUserToken("test", 2), false);
+            Assert.Equal(service.validateUserToken("Bearer test", 2), false);
             Assert.Equal(service.validateUserToken(null, 1), false);
             Assert.Equal(service.validateUserToken("incorrect", 1), false);
-            Assert.Equal(service.validateUserToken("test", 1), true);
+            Assert.Equal(service.validateUserToken("Bearer test", 1), true);
             System.TimeSpan duration2 = new System.TimeSpan(-1, 0, 0, 0);
             string expires2 = (DateTime.Now.Add(duration2)).ToString();
             Token t2 = new Token {
@@ -48,7 +48,7 @@ namespace Assignment3.UnitTests
             Assert.Equal(tokens.Count, 1);
             service.createUserToken(1, "test");
             Assert.Equal(tokens.Count, 1);
-            Assert.Equal(service.validateUserToken(tokens.First().token, 1), true);
+            Assert.Equal(service.validateUserToken("Bearer " + tokens.First().token, 1), true);
         }
     }
 }

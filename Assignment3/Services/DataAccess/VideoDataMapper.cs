@@ -39,5 +39,10 @@ namespace Assignment3.Services.DataAccess
             _db.Videos.Remove(vid);
             _db.SaveChanges();
         }
+        public int addChannel(Channel ch) {
+            _db.Channels.Add(ch);
+            _db.SaveChanges();
+            return ch.ID;
+        }
     }
 }

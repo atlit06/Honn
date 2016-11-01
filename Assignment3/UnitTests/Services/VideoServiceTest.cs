@@ -64,6 +64,10 @@ namespace Assignment3.UnitTests
                 returnVideo = null;
             }
 
+            public int addChannel(Channel ch) {
+                return 0;
+            }
+
             public List<Video> getAllVideos()
             {
                 callCount += 1;
