@@ -21,14 +21,10 @@ namespace Assignment3.Services
             if(userId == null){
                 throw new InvalidParametersException("No user found");  
             }
-            try
-            {
-                _mapper.changeUsername((int)userId, newUser.newUsername);
+            if(!_tokenService.validateUserToken(newUser.accessToken, (int)userId)){
+                throw new InvalidParametersException("To favourite a video you must use a valid token and a valid username");
             }
-            catch (Exception)
-            {
-                throw new InvalidParametersException("Something went wrong with changing username");
-            }
+            _mapper.changeUsername((int)userId, newUser.newUsername);
         }
 
         public void addFavouriteVideo(AuthorizedUserDTO user, VideoDTO video){

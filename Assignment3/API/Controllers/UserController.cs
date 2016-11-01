@@ -19,8 +19,8 @@ namespace Assignment3.Controllers
         }
 
         [HttpPost]
-        [Route("friend")]
-        public IActionResult signUp([FromBody] FriendDTO frendReq)
+        [Route("addFriend")]
+        public IActionResult addFriend([FromBody] FriendDTO frendReq)
         {
             try
             {
@@ -35,5 +35,72 @@ namespace Assignment3.Controllers
             }
         }
         
+        [HttpPost]
+        [Route("addFavourite")]
+        public IActionResult addFavourite([FromBody] FriendDTO frendReq)
+        {
+            try
+            {
+                _userService.addFriend(frendReq);
+                return Ok();
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (DuplicateException e) {
+                return new BadRequestObjectResult(e.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("updateUsername")]
+        public IActionResult updateUsername([FromBody] FriendDTO frendReq)
+        {
+            try
+            {
+                _userService.addFriend(frendReq);
+                return Ok();
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (DuplicateException e) {
+                return new BadRequestObjectResult(e.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("getFavourites")]
+        public IActionResult getFavourites([FromBody] FriendDTO frendReq)
+        {
+            try
+            {
+                _userService.addFriend(frendReq);
+                return Ok();
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (DuplicateException e) {
+                return new BadRequestObjectResult(e.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("getFriends")]
+        public IActionResult getFriends([FromBody] FriendDTO frendReq)
+        {
+            try
+            {
+                _userService.addFriend(frendReq);
+                return Ok();
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (DuplicateException e) {
+                return new BadRequestObjectResult(e.Message);
+            }
+        }
     }
 }

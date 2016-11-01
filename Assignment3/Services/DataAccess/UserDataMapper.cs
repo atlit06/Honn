@@ -52,7 +52,7 @@ namespace Assignment3.Services.DataAccess
                     }).ToList();
         }
 
-         public int id          { get; set; }
+        public int id          { get; set; }
         public string title     { get; set; }
         public string source    { get; set; }
         public string creator   { get; set; }
