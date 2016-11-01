@@ -72,15 +72,16 @@ namespace Assignment3.UnitTests
                 source = "testing",
                 creator  = 1,
                 channelId = 0};
-            var authDTO = new AuthorizedUserDTO{
+            var authDTO = new NewFavouriteVideoDTO{
                 username = "janus",
                 email = "jth@365.is",
                 password = "qwerty",
                 fullName = "Janus Þór",
-                accessToken = "1"
+                accessToken = "1",
+                videoId = vDTO.id
             };
 
-            _service.addFavouriteVideo(authDTO, vDTO);
+            _service.addFavouriteVideo(authDTO);
 
             Assert.Equal(1, mockMapper.Favourites.Count());
             Assert.Equal(1, mockMapper.Favourites[0].userId);
@@ -176,16 +177,19 @@ namespace Assignment3.UnitTests
                 creator  = 1,
                 channelId = 0};
             
-            var authDTO = new AuthorizedUserDTO{
+            var authDTO = new NewFavouriteVideoDTO{
                 username = "janus",
                 email = "jth@365.is",
                 password = "qwerty",
                 fullName = "Janus Þór",
-                accessToken = "1"
+                accessToken = "1",
+                videoId = vDTO1.id
             };
-            _service.addFavouriteVideo(authDTO, vDTO1);
-            _service.addFavouriteVideo(authDTO, vDTO2);
-            _service.addFavouriteVideo(authDTO, vDTO3);
+            _service.addFavouriteVideo(authDTO);
+            authDTO.videoId += 1;
+            _service.addFavouriteVideo(authDTO);
+            authDTO.videoId += 1;
+            _service.addFavouriteVideo(authDTO);
 
 
             List<VideoDTO> verifyData = (from v in mockMapper.Videos
