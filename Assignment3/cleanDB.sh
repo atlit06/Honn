@@ -1,5 +1,5 @@
 #!/bin/bash
 
 
-cp OriginalRuTube.db API/RuTube.db
+cp Sample\ Databases/OriginalRuTube.db API/RuTube.db
 Echo "Clean Database Initialized"

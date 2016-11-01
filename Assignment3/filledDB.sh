@@ -1,5 +1,5 @@
 #!/bin/bash
 
 
-cp OriginalFilledRuTube.db API/RuTube.db
+cp Sample\ Databases/OriginalFilledRuTube.db API/RuTube.db
 Echo "Filled Database Initialized"

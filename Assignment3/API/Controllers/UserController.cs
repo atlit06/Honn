@@ -190,5 +190,25 @@ namespace Assignment3.Controllers
                 return new BadRequestObjectResult(e.Message);
             }
         }
+
+        [HttpPost]
+        [Route("getProfile")]
+        public IActionResult getProfile(PublicUserDTO user)
+        {
+            // Basic API -> Service Cals
+            // Receive Object Through Post/Get Request
+            // Pass Object Too Service Layer
+            // Catch Defined Errors Else Return 2xx Message
+            try
+            {
+                return Ok(_userService.getProfile(user));
+            }
+            catch (InvalidParametersException e) {
+                return BadRequest(e.Message);
+            }
+            catch (DuplicateException e) {
+                return new BadRequestObjectResult(e.Message);
+            }
+        }
     }
 }
