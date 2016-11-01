@@ -12,5 +12,6 @@ namespace Assignment3.Services.DataAccess
         void addFriend(int user, int friend);
         List<VideoDTO> getFavouriteVideos(int userId);
         List<PublicUserDTO> getFriends(int userId);
+        User getUserInfo(string username);
     }
 }

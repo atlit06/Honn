@@ -15,7 +15,6 @@ namespace Assignment3.Services.DataAccess
         }
 
         public int? getUserId(string username){
-            // Querry
             return (from u in _db.Users
                     where u.username == username
                     select u.id).FirstOrDefault();
@@ -24,39 +23,29 @@ namespace Assignment3.Services.DataAccess
 
         public void changeUsername(int userId, string newUsername){
 
-            // Querry For The Object
             var user = (from u in _db.Users
                         where u.id == userId
                         select u).FirstOrDefault();
-            // Update the object
             user.username = newUsername;
-
-            // Save the object
             _db.SaveChanges();
 
         }
 
         public void addFavourite(int userId, int videoId){
-            // Querry to add
             _db.Favourites.Add(new FavouriteVideo {videoId = videoId, userId = userId});
-            
-            // save changes
             _db.SaveChanges();
             return;
         }
 
         public void addFriend(int user, int friend){
-            // Querry to add
             _db.Friends.Add(new Friend{friendee = user, friended = friend});  
             
-            // Save Changes
             _db.SaveChanges();
             return;  
         }
 
         public List<VideoDTO> getFavouriteVideos(int userId)  { 
             
-            // Querry 
             List<VideoDTO> vids = (from fv in _db.Favourites
                     where fv.userId == userId
                     join v in _db.Videos on fv.videoId equals v.id
@@ -71,14 +60,19 @@ namespace Assignment3.Services.DataAccess
             return vids;   
         }
 
-        public List<PublicUserDTO> getFriends(int userId)     { 
-            // Querry
+        public List<PublicUserDTO> getFriends(int userId)     {
             return (from f in _db.Friends
                     where f.friendee == userId
                     join u in _db.Users on f.friended equals u.id
                     select new PublicUserDTO{
                         username = u.username,
                         email = u.email}).ToList();
+        }
+
+        public User getUserInfo(string username){
+            return (from u in _db.Users
+                    where u.username == username
+                    select u).FirstOrDefault();
         }
 
     }

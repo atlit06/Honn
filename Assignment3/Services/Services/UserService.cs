@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Assignment3.Models;
 using Assignment3.Services.DataAccess;
 using Assignment3.Services.Exceptions;
+using Assignment3.Services.Entities;
 using System;
 
 namespace Assignment3.Services
@@ -111,6 +112,25 @@ namespace Assignment3.Services
 
             // Do a DataLayer Call
             return _mapper.getFriends((int)userId);
+        }
+
+        public ProfileDTO getProfile(PublicUserDTO user){
+            // If the userId is nul the user does not exist
+            int? userId = _mapper.getUserId(user.username);
+            if(userId == null){
+                throw new InvalidParametersException("User cannot be found");
+            }
+
+            User userInfo = _mapper.getUserInfo(user.username);
+
+            ProfileDTO profile = new ProfileDTO{
+                username = user.username,
+                email = userInfo.email,
+                friends = getFriends(user),
+                favourites = getFavouriteVideos(user)
+            };
+            
+            return profile;
         }
     }
 }

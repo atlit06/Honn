@@ -12,6 +12,7 @@ namespace Assignment3.Services
         void updateUsername(UpdateUsernameDTO newUser);
         List<VideoDTO> getFavouriteVideos(PublicUserDTO user);
         List<PublicUserDTO> getFriends(PublicUserDTO user);
+        ProfileDTO getProfile(PublicUserDTO user);
 
     }
 }
