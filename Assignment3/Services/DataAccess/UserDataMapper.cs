@@ -74,7 +74,7 @@ namespace Assignment3.Services.DataAccess
         public List<PublicUserDTO> getFriends(int userId)     { 
             // Querry
             return (from f in _db.Friends
-                    where f.friendee == us  erId
+                    where f.friendee == userId
                     join u in _db.Users on f.friended equals u.id
                     select new PublicUserDTO{
                         username = u.username,
