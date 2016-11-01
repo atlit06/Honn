@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Server.Kestrel;
+using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Xunit;
@@ -20,14 +22,21 @@ namespace Assignment3.IntegrationTests
         public TestServer server { get; }
         public HttpClient client { get; }
         public AccountControllerTest() {
-            var builder = new WebHostBuilder().UseStartup<Startup>();
+            var builder = new WebHostBuilder()
+            .UseKestrel()
+            .UseStartup<TestStartup>();
             server = new TestServer(builder);
             client = server.CreateClient();
         }
-    }
-    [Fact]
-    public async void TestVisitRoot() {
-        var response = await client.GetAsync("/");
-        response.EnsureSuccessStatusCode();
+        [Fact]
+        public async void TestVisitRoot() {
+           // var response = await client.GetAsync("/api/account/signup");
+           var content = new FormUrlEncodedContent(new[]
+        {
+             new KeyValuePair<string, string>("username", "steinn")
+        });
+           var response = await client.PostAsync("/api/account/signup", content);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

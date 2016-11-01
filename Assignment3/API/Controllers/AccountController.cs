@@ -19,7 +19,7 @@ namespace Assignment3.Controllers
         }
         [HttpPost]
         [Route("signup")]
-        public IActionResult signUp([FromBody] UserDTO user)
+        public IActionResult signUp(UserDTO user)
         {
             try
             {
