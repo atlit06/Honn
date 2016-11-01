@@ -22,6 +22,7 @@ namespace Assignment3.Services
         public AppDataContext(DbContextOptions<AppDataContext> options)
             : base(options)
         {
+            // Open connection for integration tests
             this.Database.OpenConnection();
             this.Database.EnsureCreated();
         }

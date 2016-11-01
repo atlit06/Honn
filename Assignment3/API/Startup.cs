@@ -45,6 +45,10 @@ namespace Assignment3.API
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<ITokenDataMapper, TokenDataMapper>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserDataMapper, UserDataMapper>();
+            services.AddTransient<IVideoService, VideoService>();
+            services.AddTransient<IVideoDataMapper, VideoDataMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
